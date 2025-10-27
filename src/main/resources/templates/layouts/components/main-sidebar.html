@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<aside th:fragment="main-sidebar" class="main-sidebar sidebar-dark-primary elevation-4">
+			<a href="/administration/dashboard" class="brand-link" style="display: flex; align-items: center; justify-content: center; padding: 8px 0">
+				<img src="/favicon.ico" alt="SmartRoom Logo" style="width: 32px; height: 32px; margin-right: 12px" />
+				<span class="brand-text font-weight-light">Smart Room Admin</span>
+			</a>
+
+			<div class="sidebar">
+				<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+					<div class="info">
+						<a href="#" class="d-block">User Name</a>
+					</div>
+				</div>
+
+				<nav class="mt-2">
+					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+						<li class="nav-item">
+							<a th:href="@{/administration/dashboard}" class="nav-link">
+								<i class="nav-icon fas fa-tachometer-alt"></i>
+								<p>Dashboard</p>
+							</a>
+						</li>
+
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-layer-group"></i>
+								<p>
+									Components
+									<i class="right fas fa-angle-left"></i>
+								</p>
+							</a>
+
+							<ul class="nav nav-treeview">
+								<li class="nav-item">
+									<a th:href="@{/administration/components/rooms}" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>Rooms</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a th:href="@{/administration/components/hubs}" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>Hubs</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a th:href="@{/administration/components/devices}" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>Devices</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a th:href="@{/administration/components/sensors}" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>Sensors</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a th:href="@{/administration/components/datatypes}" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>DataTypes</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a th:href="@{/administration/components/connectiontypes}" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>ConnectionTypes</p>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</aside>
+	</body>
+</html>

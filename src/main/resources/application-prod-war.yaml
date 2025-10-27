@@ -1,0 +1,18 @@
+server:
+    port: ${SERVER_PORT:8080}
+    address: ${SERVER_HOST:0.0.0.0}
+
+spring:
+    datasource:
+        jndi-name: ${DB_JNDI_NAME:java:comp/env/jdbc/myAppDB} 
+        
+    jpa:
+        hibernate:
+            ddl-auto: update
+            show-sql: true
+
+logging:
+    level:
+        com:
+            example:
+                demo: INFO

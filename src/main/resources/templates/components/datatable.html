@@ -1,0 +1,81 @@
+<!--
+Datatable Component
+
+Đây là component chính để hiển thị bất kỳ danh sách dữ liệu nào trong dự án. Nó cung cấp một cấu trúc "card" hoàn chỉnh của AdminLTE, bao gồm:
+
+1.  Card Header: Chứa tiêu đề của bảng (ví dụ: "Danh sách phòng").
+2.  Card Body: Một "slot" để bạn nhúng nội dung <table> tùy chỉnh của mình vào.
+3.  Card Footer: Tự động nhúng component pagination.html và hiển thị thanh phân trang.
+
+Tham số:
+- cardTitle: String, tiêu đề card.
+- pageData: org.springframework.data.domain.Page<?>, dữ liệu phân trang.
+- pageUrl: String, URL cơ sở cho phân trang.
+- tableContent: Fragment Reference, fragment chứa markup <table> của bạn.
+
+Tên fragment: card
+-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div class="card" th:fragment="card(cardTitle, pageData, pageUrl, paramPrefix, tableContent)">
+			<div class="card-header">
+				<h3 class="card-title" th:text="${cardTitle}">Default Card Title</h3>
+			</div>
+			<div class="card-body p-0">
+				<div th:replace="${tableContent}">
+					<p class="p-3">Lỗi: Fragment 'tableContent' chưa được định nghĩa.</p>
+				</div>
+			</div>
+			<div
+				class="card-footer d-flex justify-content-between align-items-center flex-wrap"
+				th:if="${pageData != null && pageData.totalPages > 0}"
+				th:with="
+                    pageParamName=${paramPrefix != null} ? ${paramPrefix} + 'Page' : 'page',
+                    sizeParamName=${paramPrefix != null} ? ${paramPrefix} + 'Size' : 'size'
+                "
+			>
+				<div
+					class="text-muted"
+					th:if="${pageData.totalElements > 0}"
+					th:with="
+                        startRecord = (${pageData.number} * ${pageData.size}) + 1,
+                        endRecord = (${pageData.number} * ${pageData.size}) + ${pageData.numberOfElements}
+                    "
+					th:text="'Hiển thị ' + ${startRecord} + ' đến ' + ${endRecord} + ' trong ' + ${pageData.totalElements} + ' mục'"
+				>
+					Hiển thị 1 đến 10 trong 57 mục
+				</div>
+
+				<div class="d-flex align-items-center gap-2" th:if="${pageData.totalPages > 1}">
+					<label class="mb-0" style="font-weight: normal">
+						Số hàng:
+						<select
+							class="form-control form-control-sm d-inline-block"
+							style="width: auto"
+							th:onchange="'_handlePageSizeChange(\'' + ${pageParamName} + '\', \'' + ${sizeParamName} + '\', this.value)'"
+						>
+							<option th:each="s : ${ {10, 25, 50, 100} }" th:value="${s}" th:text="${s}" th:selected="${s == pageData.size}"></option>
+						</select>
+					</label>
+
+					<div th:replace="~{components/pagination :: paging(pageData=${pageData}, pageUrl=${pageUrl}, paramPrefix=${paramPrefix})}"></div>
+				</div>
+
+				<script th:inline="javascript">
+					/* <![CDATA[ */
+					if (typeof _handlePageSizeChange === 'undefined') {
+						function _handlePageSizeChange(pageParamName, sizeParamName, newSize) {
+							const params = new URLSearchParams(window.location.search);
+							params.set(pageParamName, '0');
+							params.set(sizeParamName, newSize);
+							window.location.search = params.toString();
+						}
+					}
+					/* ]]> */
+				</script>
+			</div>
+		</div>
+	</body>
+</html>

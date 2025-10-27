@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!-- 
+  Sử dụng các không gian tên (namespace) của Thymeleaf:
+  - xmlns:th: Cho các thuộc tính của Thymeleaf (ví dụ: th:text, th:href).
+  - xmlns:layout: Cho Thymeleaf Layout Dialect (ví dụ: layout:decorate, layout:fragment).
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/main}">
+	<head>
+		<title>Dashboard</title>
+	</head>
+	<body>
+		<!-- Import fragments từ icons.html -->
+		<div th:replace="~{components/icons :: hubIcon}"></div>
+		<div th:replace="~{components/icons :: roomIcon}"></div>
+		<div th:replace="~{components/icons :: deviceIcon}"></div>
+		<div th:replace="~{components/icons :: sensorIcon}"></div>
+		<!-- 
+      Định nghĩa phần nội dung (content) sẽ được chèn vào layout chính (layouts/main).
+    -->
+		<section layout:fragment="content">
+			<!-- Hàng chứa các thẻ thống kê nhanh (Small Boxes) -->
+			<div class="row">
+				<!-- Thẻ thống kê: Tổng số Phòng -->
+				<div class="col-lg-3 col-6">
+					<div class="small-box bg-info">
+						<div class="inner">
+							<!-- 
+                          Sử dụng th:text để hiển thị động dữ liệu từ model.
+                          Giá trị "150" chỉ là placeholder, sẽ bị thay thế.
+                        -->
+							<h3 th:text="${dashboardData.rooms.totalElements}">150</h3>
+							<p>Tổng số Phòng</p>
+						</div>
+						<div class="icon">
+							<!-- Sử dụng fragment roomIcon -->
+							<span th:replace="~{components/icons :: roomIcon}"></span>
+						</div>
+						<!-- 
+                      Sử dụng th:href và @{...} để tạo URL động, an toàn.
+                    -->
+						<a th:href="@{/administration/components/rooms}" class="small-box-footer"> Xem chi tiết <i class="fas fa-arrow-circle-right"></i> </a>
+					</div>
+				</div>
+
+				<!-- Thẻ thống kê: Tổng số Hub -->
+				<div class="col-lg-3 col-6">
+					<div class="small-box bg-success">
+						<div class="inner">
+							<h3 th:text="${dashboardData.hubs.totalElements}">53</h3>
+							<p>Tổng số Hub</p>
+						</div>
+						<div class="icon">
+							<!-- Sử dụng fragment hubIcon -->
+							<span th:replace="~{components/icons :: hubIcon}"></span>
+						</div>
+						<a th:href="@{/administration/components/hubs}" class="small-box-footer"> Xem chi tiết <i class="fas fa-arrow-circle-right"></i> </a>
+					</div>
+				</div>
+
+				<!-- Thẻ thống kê: Tổng số Thiết bị -->
+				<div class="col-lg-3 col-6">
+					<div class="small-box bg-warning">
+						<div class="inner">
+							<h3 th:text="${dashboardData.devices.totalElements}">44</h3>
+							<p>Tổng số Thiết bị</p>
+						</div>
+						<div class="icon">
+							<!-- Sử dụng fragment deviceIcon -->
+							<span th:replace="~{components/icons :: deviceIcon}"></span>
+						</div>
+						<a th:href="@{/administration/components/devices}" class="small-box-footer"> Xem chi tiết <i class="fas fa-arrow-circle-right"></i> </a>
+					</div>
+				</div>
+
+				<!-- Thẻ thống kê: Tổng số Cảm biến -->
+				<div class="col-lg-3 col-6">
+					<div class="small-box bg-danger">
+						<div class="inner">
+							<h3 th:text="${dashboardData.sensors.totalElements}">65</h3>
+							<p>Tổng số Cảm biến</p>
+						</div>
+						<div class="icon">
+							<!-- Sử dụng fragment sensorIcon -->
+							<span th:replace="~{components/icons :: sensorIcon}"></span>
+						</div>
+						<a th:href="@{/administration/components/sensors}" class="small-box-footer"> Xem chi tiết <i class="fas fa-arrow-circle-right"></i> </a>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+
+			<!-- Hàng chứa biểu đồ thống kê -->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- Card chứa biểu đồ -->
+					<div class="card card-primary">
+						<div class="card-header">
+							<h3 class="card-title">Thống kê số lượng</h3>
+							<div class="card-tools">
+								<!-- Nút thu gọn/mở rộng card -->
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="chart">
+								<!-- Phần tử Canvas để Chart.js vẽ biểu đồ -->
+								<canvas id="quantityChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%"></canvas>
+							</div>
+						</div>
+						<!-- /.card-body -->
+					</div>
+					<!-- /.card -->
+				</div>
+			</div>
+			<!-- /.row -->
+		</section>
+
+		<!-- 
+      Định nghĩa phần script sẽ được chèn vào layout chính.
+    -->
+		<th:block layout:fragment="scripts">
+			<!-- 
+          Bật chế độ "inline" cho JavaScript của Thymeleaf.
+          Điều này cho phép chúng ta nhúng an toàn các biến từ model vào JS.
+        -->
+			<script th:inline="javascript">
+				/*<![CDATA[*/
+
+				// Chạy script khi tài liệu (DOM) đã sẵn sàng
+				$(function () {
+					// 1. LẤY DỮ LIỆU TỪ MODEL (THYMELEAF)
+					// ------------------------------------
+					// Sử dụng cú pháp /*[[...]]*/ ... ; để nhúng biến an toàn.
+					// Số 0 ở cuối là giá trị dự phòng nếu biến không tồn tại.
+					const roomCount = /*[[${dashboardData.rooms.totalElements}]]*/ 0;
+					const hubCount = /*[[${dashboardData.hubs.totalElements}]]*/ 0;
+					const deviceCount = /*[[${dashboardData.devices.totalElements}]]*/ 0;
+					const sensorCount = /*[[${dashboardData.sensors.totalElements}]]*/ 0;
+
+					// 2. CHUẨN BỊ DỮ LIỆU CHO BIỂU ĐỒ (Chart.js)
+					// -----------------------------------------
+					const chartData = {
+						// Nhãn cho trục X
+						labels: ['Phòng', 'Hub', 'Thiết bị', 'Cảm biến'],
+						// Các bộ dữ liệu
+						datasets: [
+							{
+								label: 'Số lượng',
+								// Màu nền cho các cột, tương ứng với màu của small-box
+								backgroundColor: [
+									'rgba(23, 162, 184, 0.9)', // bg-info
+									'rgba(40, 167, 69, 0.9)', // bg-success
+									'rgba(255, 193, 7, 0.9)', // bg-warning
+									'rgba(220, 53, 69, 0.9)', // bg-danger
+								],
+								// Màu viền cho các cột
+								borderColor: ['rgba(23, 162, 184, 1)', 'rgba(40, 167, 69, 1)', 'rgba(255, 193, 7, 1)', 'rgba(220, 53, 69, 1)'],
+								borderWidth: 1, // Độ dày viền
+								// Dữ liệu số lượng
+								data: [roomCount, hubCount, deviceCount, sensorCount],
+							},
+						],
+					};
+
+					// 3. KHỞI TẠO BIỂU ĐỒ BAR
+					// -------------------------
+					// Lấy đối tượng canvas và context 2D
+					const chartCanvas = $('#quantityChart').get(0).getContext('2d');
+
+					// Cấu hình các tùy chọn cho biểu đồ
+					const chartOptions = {
+						responsive: true, // Tự động điều chỉnh kích thước
+						maintainAspectRatio: false, // Không giữ tỷ lệ khung hình (để tuân theo CSS)
+
+						// Cấu hình các trục (Cú pháp Chart.js v3+)
+						scales: {
+							y: {
+								// Cấu hình trục Y
+								ticks: {
+									beginAtZero: true, // Bắt đầu trục Y từ số 0
+									// Hàm callback để định dạng vạch chia
+									// Đảm bảo chỉ hiển thị số nguyên trên trục Y
+									callback: function (value) {
+										if (Number.isInteger(value)) {
+											return value;
+										}
+									},
+								},
+							},
+							x: {
+								// Cấu hình trục X
+								grid: {
+									display: false, // Ẩn các đường lưới dọc cho gọn gàng
+								},
+							},
+						},
+
+						// Cấu hình các plugin (Cú pháp Chart.js v3+)
+						plugins: {
+							legend: {
+								display: false, // Ẩn chú giải (legend) vì đã rõ ràng
+							},
+							tooltip: {
+								// Tùy chỉnh hiển thị khi di chuột vào cột
+								callbacks: {
+									label: function (context) {
+										let label = context.dataset.label || '';
+										if (label) {
+											label += ': ';
+										}
+										// context.parsed.y lấy giá trị số của cột
+										label += context.parsed.y;
+										return ' ' + label; // Thêm khoảng trắng cho đẹp
+									},
+								},
+							},
+						},
+					};
+
+					// Tạo đối tượng biểu đồ mới
+					const barChart = new Chart(chartCanvas, {
+						type: 'bar', // Loại biểu đồ là 'bar'
+						data: chartData, // Dữ liệu đã chuẩn bị
+						options: chartOptions, // Tùy chọn đã cấu hình
+					});
+				});
+
+				/*]]>*/
+			</script>
+		</th:block>
+	</body>
+</html>

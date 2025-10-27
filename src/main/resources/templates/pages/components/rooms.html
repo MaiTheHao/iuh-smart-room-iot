@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/main}">
+	<head>
+		<title>Rooms</title>
+	</head>
+	<body>
+		<section layout:fragment="content">
+			<div class="row">
+				<div class="col-12">
+					<!-- Sử dụng datatable component -->
+					<div
+						th:replace="~{components/datatable :: card(
+                        cardTitle='Danh sách Phòng',
+                        pageData=${roomListViewData.rooms},
+                        pageUrl=@{/administration/components/rooms},
+                        paramPrefix='',
+                        tableContent=~{::roomTable}
+                    )}"
+					>
+						<!-- Table fragment -->
+						<th:block th:fragment="roomTable">
+							<table class="table table-bordered table-hover">
+								<thead class="thead-light">
+									<tr>
+										<th><i class="fas fa-hashtag"></i> ID</th>
+										<th><i class="fas fa-door-open"></i> Tên phòng</th>
+										<th><i class="fas fa-map-marker-alt"></i> Vị trí</th>
+										<th><i class="fas fa-info-circle"></i> Mô tả</th>
+										<th><i class="fas fa-eye"></i> Chi tiết</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="room : ${roomListViewData.rooms.content}">
+										<td th:text="${room.id}">ID</td>
+										<td th:text="${room.name}">Tên phòng</td>
+										<td th:text="${room.location}">Vị trí</td>
+										<td th:text="${room.description}">Mô tả</td>
+										<td>
+											<a th:href="@{/administration/components/rooms/{id}(id=${room.id})}" class="btn btn-primary btn-sm">
+												<i class="fas fa-search"></i> Xem chi tiết
+											</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</th:block>
+						<!-- Pagination đã nằm trong datatable -->
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>

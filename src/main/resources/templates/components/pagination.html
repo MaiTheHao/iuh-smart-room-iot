@@ -1,0 +1,104 @@
+<!--
+Pagination Component
+
+Component này render một thanh điều hướng phân trang (pagination bar) chuẩn AdminLTE/Bootstrap, làm việc với đối tượng Page<?> từ Spring Data JPA.
+
+Tính năng:
+- Hiển thị nút "Trang trước" («) và "Trang sau" (»), tự động disable nếu ở đầu/cuối.
+- Hiển thị cửa sổ trượt các số trang (2 trước, 2 sau trang hiện tại).
+- Hiển thị link về trang 1 và trang cuối (kèm dấu ...) nếu cần.
+- Đánh dấu active trang hiện tại.
+
+Tham số:
+- pageData: org.springframework.data.domain.Page<?>, dữ liệu phân trang.
+- pageUrl: String, URL cơ sở cho phân trang.
+
+Tên fragment: paging
+-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<ul
+			class="pagination pagination-sm m-0"
+			th:fragment="paging(pageData, pageUrl, paramPrefix)"
+			th:if="${pageData != null && pageData.totalPages > 1}"
+			th:with="
+				pageParamName=${paramPrefix != null} ? ${paramPrefix} + 'Page' : 'page',
+				sizeParamName=${paramPrefix != null} ? ${paramPrefix} + 'Size' : 'size'
+			"
+		>
+			<li class="page-item" th:classappend="${pageData.first} ? 'disabled' : ''">
+				<a
+					class="page-link"
+					th:href="@{${pageUrl}(
+						${T(java.util.Map).entry(pageParamName, pageData.number - 1)},
+						${T(java.util.Map).entry(sizeParamName, pageData.size)}
+					)}"
+				>
+					<i class="fas fa-angle-left"></i>
+				</a>
+			</li>
+
+			<th:block
+				th:with="
+					currentPage=${pageData.number},
+					totalPages=${pageData.totalPages},
+					startPage=${T(java.lang.Math).max(0, currentPage - 2)},
+					endPage=${T(java.lang.Math).min(totalPages - 1, currentPage + 2)}
+				"
+			>
+				<li class="page-item" th:if="${startPage > 0}">
+					<a
+						class="page-link"
+						th:href="@{${pageUrl}(
+							${T(java.util.Map).entry(pageParamName, 0)},
+							${T(java.util.Map).entry(sizeParamName, pageData.size)}
+						)}"
+						>1</a
+					>
+				</li>
+				<li class="page-item disabled" th:if="${startPage > 1}">
+					<span class="page-link">...</span>
+				</li>
+
+				<li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}" th:classappend="${i == currentPage} ? 'active' : ''">
+					<a
+						class="page-link"
+						th:href="@{${pageUrl}(
+							${T(java.util.Map).entry(pageParamName, i)},
+							${T(java.util.Map).entry(sizeParamName, pageData.size)}
+						)}"
+						th:text="${i + 1}"
+					></a>
+				</li>
+
+				<li class="page-item disabled" th:if="${endPage < totalPages - 2}">
+					<span class="page-link">...</span>
+				</li>
+				<li class="page-item" th:if="${endPage < totalPages - 1}">
+					<a
+						class="page-link"
+						th:href="@{${pageUrl}(
+							${T(java.util.Map).entry(pageParamName, totalPages - 1)},
+							${T(java.util.Map).entry(sizeParamName, pageData.size)}
+						)}"
+						th:text="${totalPages}"
+					></a>
+				</li>
+			</th:block>
+
+			<li class="page-item" th:classappend="${pageData.last} ? 'disabled' : ''">
+				<a
+					class="page-link"
+					th:href="@{${pageUrl}(
+						${T(java.util.Map).entry(pageParamName, pageData.number + 1)},
+						${T(java.util.Map).entry(sizeParamName, pageData.size)}
+					)}"
+				>
+					<i class="fas fa-angle-right"></i>
+				</a>
+			</li>
+		</ul>
+	</body>
+</html>
