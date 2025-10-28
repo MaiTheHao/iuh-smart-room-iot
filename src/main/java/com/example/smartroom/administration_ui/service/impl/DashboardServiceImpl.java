@@ -1,7 +1,7 @@
 package com.example.smartroom.administration_ui.service.impl;
 
-import com.example.smartroom.administration_ui.dto.DashboardViewDataDTO;
-import com.example.smartroom.administration_ui.mapper.DashboardViewDataMapper;
+import com.example.smartroom.administration_ui.dto.dashboard.DashboardViewDataDTO;
+import com.example.smartroom.administration_ui.mapper.dashboard.DashboardViewDataMapper;
 import com.example.smartroom.administration_ui.service.DashboardService;
 import com.example.smartroom.device_management.service.RoomService;
 import com.example.smartroom.device_management.service.HubService;

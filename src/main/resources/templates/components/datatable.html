@@ -1,27 +1,13 @@
-<!--
-Datatable Component
-
-Đây là component chính để hiển thị bất kỳ danh sách dữ liệu nào trong dự án. Nó cung cấp một cấu trúc "card" hoàn chỉnh của AdminLTE, bao gồm:
-
-1.  Card Header: Chứa tiêu đề của bảng (ví dụ: "Danh sách phòng").
-2.  Card Body: Một "slot" để bạn nhúng nội dung <table> tùy chỉnh của mình vào.
-3.  Card Footer: Tự động nhúng component pagination.html và hiển thị thanh phân trang.
-
-Tham số:
-- cardTitle: String, tiêu đề card.
-- pageData: org.springframework.data.domain.Page<?>, dữ liệu phân trang.
-- pageUrl: String, URL cơ sở cho phân trang.
-- tableContent: Fragment Reference, fragment chứa markup <table> của bạn.
-
-Tên fragment: card
--->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<body>
-		<div class="card" th:fragment="card(cardTitle, pageData, pageUrl, paramPrefix, tableContent)">
-			<div class="card-header">
-				<h3 class="card-title" th:text="${cardTitle}">Default Card Title</h3>
+		<div class="card" th:fragment="card(cardTitle, pageData, pageUrl, paramPrefix, tableContent, filterContent)">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<h3 class="card-title mb-0" th:text="${cardTitle}">Default Card Title</h3>
+
+				<div class="card-tools" th:if="${filterContent != null AND !#strings.isEmpty(filterContent.toString().trim())}">
+					<div th:replace="${filterContent}"></div>
+				</div>
 			</div>
 			<div class="card-body p-0">
 				<div th:replace="${tableContent}">

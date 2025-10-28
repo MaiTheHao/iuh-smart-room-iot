@@ -9,6 +9,7 @@ import com.example.smartroom.common.exception.BadRequestException;
 import com.example.smartroom.common.exception.NotFoundException;
 import com.example.smartroom.device_management.dto.sensor.SensorCreateDTO;
 import com.example.smartroom.device_management.dto.sensor.SensorDTO;
+import com.example.smartroom.device_management.dto.sensor.SensorStatisticsDTO;
 import com.example.smartroom.device_management.entity.Device;
 import com.example.smartroom.device_management.entity.Sensor;
 import com.example.smartroom.device_management.mapper.SensorMapper;
@@ -87,6 +88,11 @@ public class SensorServiceImpl implements SensorService {
     @Override
     public Long countByRoomId(String roomId) {
         return sensorRepository.countByRoomId(roomId);
+    }
+
+    @Override
+    public SensorStatisticsDTO getSensorStatisticsById(String id) {
+        return sensorRepository.getSensorStatisticsById(id);
     }
     
 }

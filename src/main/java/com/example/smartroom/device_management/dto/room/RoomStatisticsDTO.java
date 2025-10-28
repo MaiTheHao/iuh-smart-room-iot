@@ -1,16 +1,15 @@
-package com.example.smartroom.device_management.dto.hub;
+package com.example.smartroom.device_management.dto.room;
 
 import java.time.Instant;
 
-import com.example.smartroom.common.enumeration.ComponentStatus;
-
-public record HubDTO(
+public record RoomStatisticsDTO(
     String id,
     String name,
     String location,
-    ComponentStatus status,
     String description,
-    String roomId,
+    Long hubCount,
+    Long deviceCount,
+    Long sensorCount,
     Instant createdAt,
     Instant updatedAt,
     Long createdBy,

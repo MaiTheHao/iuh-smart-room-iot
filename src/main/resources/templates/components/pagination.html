@@ -1,21 +1,3 @@
-<!--
-Pagination Component
-
-Component này render một thanh điều hướng phân trang (pagination bar) chuẩn AdminLTE/Bootstrap, làm việc với đối tượng Page<?> từ Spring Data JPA.
-
-Tính năng:
-- Hiển thị nút "Trang trước" («) và "Trang sau" (»), tự động disable nếu ở đầu/cuối.
-- Hiển thị cửa sổ trượt các số trang (2 trước, 2 sau trang hiện tại).
-- Hiển thị link về trang 1 và trang cuối (kèm dấu ...) nếu cần.
-- Đánh dấu active trang hiện tại.
-
-Tham số:
-- pageData: org.springframework.data.domain.Page<?>, dữ liệu phân trang.
-- pageUrl: String, URL cơ sở cho phân trang.
-
-Tên fragment: paging
--->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<body>
@@ -32,8 +14,8 @@ Tên fragment: paging
 				<a
 					class="page-link"
 					th:href="@{${pageUrl}(
-						${T(java.util.Map).entry(pageParamName, pageData.number - 1)},
-						${T(java.util.Map).entry(sizeParamName, pageData.size)}
+						${pageParamName}=${pageData.number - 1},
+						${sizeParamName}=${pageData.size}
 					)}"
 				>
 					<i class="fas fa-angle-left"></i>
@@ -52,8 +34,8 @@ Tên fragment: paging
 					<a
 						class="page-link"
 						th:href="@{${pageUrl}(
-							${T(java.util.Map).entry(pageParamName, 0)},
-							${T(java.util.Map).entry(sizeParamName, pageData.size)}
+							${pageParamName}=0,
+							${sizeParamName}=${pageData.size}
 						)}"
 						>1</a
 					>
@@ -66,8 +48,8 @@ Tên fragment: paging
 					<a
 						class="page-link"
 						th:href="@{${pageUrl}(
-							${T(java.util.Map).entry(pageParamName, i)},
-							${T(java.util.Map).entry(sizeParamName, pageData.size)}
+							${pageParamName}=${i},
+							${sizeParamName}=${pageData.size}
 						)}"
 						th:text="${i + 1}"
 					></a>
@@ -80,8 +62,8 @@ Tên fragment: paging
 					<a
 						class="page-link"
 						th:href="@{${pageUrl}(
-							${T(java.util.Map).entry(pageParamName, totalPages - 1)},
-							${T(java.util.Map).entry(sizeParamName, pageData.size)}
+							${pageParamName}=${totalPages - 1},
+							${sizeParamName}=${pageData.size}
 						)}"
 						th:text="${totalPages}"
 					></a>
@@ -92,8 +74,8 @@ Tên fragment: paging
 				<a
 					class="page-link"
 					th:href="@{${pageUrl}(
-						${T(java.util.Map).entry(pageParamName, pageData.number + 1)},
-						${T(java.util.Map).entry(sizeParamName, pageData.size)}
+						${pageParamName}=${pageData.number + 1},
+						${sizeParamName}=${pageData.size}
 					)}"
 				>
 					<i class="fas fa-angle-right"></i>

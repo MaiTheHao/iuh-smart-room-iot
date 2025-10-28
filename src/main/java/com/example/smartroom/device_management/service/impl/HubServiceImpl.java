@@ -9,6 +9,7 @@ import com.example.smartroom.common.exception.BadRequestException;
 import com.example.smartroom.common.exception.NotFoundException;
 import com.example.smartroom.device_management.dto.hub.HubCreateDTO;
 import com.example.smartroom.device_management.dto.hub.HubDTO;
+import com.example.smartroom.device_management.dto.hub.HubStatisticsDTO;
 import com.example.smartroom.device_management.entity.Hub;
 import com.example.smartroom.device_management.entity.Room;
 import com.example.smartroom.device_management.mapper.HubMapper;
@@ -72,5 +73,10 @@ public class HubServiceImpl implements HubService {
     @Override
     public Long countByRoomId(String roomId) {
         return hubRepository.countByRoomId(roomId);
+    }
+
+    @Override
+    public HubStatisticsDTO getHubStatisticsById(String id) {
+        return hubRepository.getHubStatisticsById(id);
     }
 }

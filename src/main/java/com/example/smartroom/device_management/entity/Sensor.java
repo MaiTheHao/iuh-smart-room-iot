@@ -1,10 +1,12 @@
 package com.example.smartroom.device_management.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import com.example.smartroom.common.abstraction.AbstractAuditableEntity;
 import com.example.smartroom.common.converter.ComponentStatusConverter;
 import com.example.smartroom.common.enumeration.ComponentStatus;
+import com.example.smartroom.data_ingestion.entity.SensorData;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -79,7 +81,18 @@ public class Sensor extends AbstractAuditableEntity {
         orphanRemoval = true,
         fetch = FetchType.LAZY
     )
-    private Set<SensorDataType> sensorDataTypes;
+    private Set<SensorDataType> sensorDataTypes = new HashSet<>();
+    
+    /**
+     * Các dữ liệu mà cảm biến này thu thập được.
+     */
+    @OneToMany(
+    		mappedBy = "sensor",
+    		cascade = CascadeType.ALL,
+    		orphanRemoval = true,
+    		fetch = FetchType.LAZY 
+    	)
+    private Set<SensorData> sensorDatas = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

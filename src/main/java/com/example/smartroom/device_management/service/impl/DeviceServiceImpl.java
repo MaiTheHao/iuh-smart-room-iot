@@ -9,6 +9,7 @@ import com.example.smartroom.common.exception.BadRequestException;
 import com.example.smartroom.common.exception.NotFoundException;
 import com.example.smartroom.device_management.dto.device.DeviceCreateDTO;
 import com.example.smartroom.device_management.dto.device.DeviceDTO;
+import com.example.smartroom.device_management.dto.device.DeviceStatisticsDTO;
 import com.example.smartroom.device_management.entity.Device;
 import com.example.smartroom.device_management.entity.Hub;
 import com.example.smartroom.device_management.mapper.DeviceMapper;
@@ -79,5 +80,10 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public Long countByRoomId(String roomId) {
         return deviceRepository.countByRoomId(roomId);
+    }
+
+    @Override
+    public DeviceStatisticsDTO getDeviceStatisticsById(String id) {
+        return deviceRepository.getDeviceStatisticsById(id);
     }
 }

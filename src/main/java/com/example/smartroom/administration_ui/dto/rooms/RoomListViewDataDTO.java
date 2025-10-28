@@ -1,4 +1,4 @@
-package com.example.smartroom.administration_ui.dto;
+package com.example.smartroom.administration_ui.dto.rooms;
 
 import org.springframework.data.domain.Page;
 

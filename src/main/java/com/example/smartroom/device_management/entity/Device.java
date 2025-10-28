@@ -1,9 +1,13 @@
 package com.example.smartroom.device_management.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.example.smartroom.common.abstraction.AbstractAuditableEntity;
 import com.example.smartroom.common.converter.ComponentStatusConverter;
 import com.example.smartroom.common.enumeration.ComponentStatus;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -11,6 +15,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Setter;
 import lombok.Getter;
@@ -64,6 +69,17 @@ public class Device extends AbstractAuditableEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hub_id")
     private Hub hub;
+    
+    /**
+     * Danh sách các cảm biến được quản lý bởi thiết bị này.
+     */
+    @OneToMany(
+    		mappedBy = "device",
+    		cascade = CascadeType.ALL,
+    		orphanRemoval = true,
+    		fetch = FetchType.LAZY
+    	)
+    public Set<Sensor> sensors = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

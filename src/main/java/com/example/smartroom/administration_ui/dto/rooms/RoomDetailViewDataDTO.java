@@ -1,4 +1,4 @@
-package com.example.smartroom.administration_ui.dto;
+package com.example.smartroom.administration_ui.dto.rooms;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 
 import org.springframework.data.domain.Page;
 import com.example.smartroom.device_management.dto.hub.HubDTO;
-import com.example.smartroom.device_management.dto.room.RoomDTO;
+import com.example.smartroom.device_management.dto.room.RoomStatisticsDTO;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +15,7 @@ import com.example.smartroom.device_management.dto.room.RoomDTO;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class RoomDetailViewDataDTO {
 
-    RoomDTO room;
+    RoomStatisticsDTO room;
 
     Page<HubDTO> hubs;
 

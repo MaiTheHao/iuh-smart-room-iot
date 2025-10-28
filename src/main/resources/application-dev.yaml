@@ -16,4 +16,4 @@ logging:
     level:
         com:
             example:
-                demo: DEBUG
+                smartroom: DEBUG

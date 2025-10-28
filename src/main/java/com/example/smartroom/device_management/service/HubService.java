@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.example.smartroom.device_management.dto.hub.HubCreateDTO;
 import com.example.smartroom.device_management.dto.hub.HubDTO;
+import com.example.smartroom.device_management.dto.hub.HubStatisticsDTO;
 
 public interface HubService {
     HubDTO createHub(HubCreateDTO dto);
@@ -14,4 +15,5 @@ public interface HubService {
     HubDTO deleteHubById(String id);
     Long count();
     Long countByRoomId(String roomId);
+    HubStatisticsDTO getHubStatisticsById(String id);
 }

@@ -6,7 +6,7 @@
 	<body>
 		<section layout:fragment="content">
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-5">
 					<div class="card card-primary shadow">
 						<div class="card-header">
 							<h3 class="card-title"><span th:replace="~{components/icons :: roomIcon}"></span> Thông tin Phòng</h3>
@@ -15,23 +15,25 @@
 							<dl class="row">
 								<dt class="col-sm-4"><span th:replace="~{components/icons :: idIcon}"></span> ID</dt>
 								<dd class="col-sm-8 font-weight-bold" th:text="${roomDetailViewData.room.id}">ID</dd>
+
 								<dt class="col-sm-4"><span th:replace="~{components/icons :: roomIcon}"></span> Tên phòng</dt>
 								<dd class="col-sm-8" th:text="${roomDetailViewData.room.name}">Tên phòng</dd>
+
 								<dt class="col-sm-4"><span th:replace="~{components/icons :: locationIcon}"></span> Vị trí</dt>
 								<dd class="col-sm-8" th:text="${roomDetailViewData.room.location}">Vị trí</dd>
+
 								<dt class="col-sm-4"><span th:replace="~{components/icons :: infoIcon}"></span> Mô tả</dt>
 								<dd class="col-sm-8" th:text="${roomDetailViewData.room.description}">Mô tả</dd>
 							</dl>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-4">
+
 					<div class="card card-info shadow">
 						<div class="card-header">
 							<h3 class="card-title"><i class="fas fa-chart-bar"></i> Thống kê</h3>
 						</div>
 						<div class="card-body">
-							<ul class="list-group">
+							<ul class="list-group list-group-flush">
 								<li class="list-group-item d-flex justify-content-between align-items-center">
 									<span th:replace="~{components/icons :: hubIcon}"></span> Tổng số Hub
 									<span class="badge badge-success badge-pill" th:text="${roomDetailViewData.totalHub}">0</span>
@@ -45,24 +47,25 @@
 									<span class="badge badge-danger badge-pill" th:text="${roomDetailViewData.totalSensor}">0</span>
 								</li>
 							</ul>
-							<canvas id="roomDetailChart" style="min-height: 180px; height: 180px; max-height: 180px; max-width: 100%"></canvas>
+
+							<hr class="my-3" />
+
+							<canvas id="roomDetailChart" style="min-height: 200px; height: 200px; max-height: 200px; max-width: 100%"></canvas>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="row mt-4">
-				<div class="col-12">
-					<!-- Sử dụng datatable component cho danh sách Hub -->
+
+				<div class="col-md-7">
 					<div
 						th:replace="~{components/datatable :: card(
-					cardTitle='Danh sách Hub trong phòng',
-					pageData=${roomDetailViewData.hubs},
-					pageUrl=@{/administration/components/rooms/{id}(id=${roomDetailViewData.room.id})},
-					paramPrefix='',
-					tableContent=~{::hubTable}
-				)}"
+            cardTitle='Danh sách Hub trong phòng',
+            pageData=${roomDetailViewData.hubs},
+            pageUrl=@{/administration/components/rooms/{id}(id=${roomDetailViewData.room.id})},
+            paramPrefix='',
+            tableContent=~{::hubTable},
+			filterContent=~{}
+        )}"
 					>
-						<!-- Table fragment cho Hub -->
 						<div th:fragment="hubTable">
 							<table class="table table-bordered table-hover table-striped">
 								<thead class="thead-dark">
@@ -87,7 +90,6 @@
 								</tbody>
 							</table>
 						</div>
-						<!-- Pagination đã nằm trong datatable -->
 					</div>
 				</div>
 			</div>

@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.smartroom.common.enumeration.ComponentStatus;
+import com.example.smartroom.device_management.dto.sensor.SensorStatisticsDTO;
 import com.example.smartroom.device_management.entity.Sensor;
 
 @Repository
@@ -37,4 +38,12 @@ public interface SensorRepository extends JpaRepository<Sensor, String> {
     Long countByRoomId(@Param("roomId") String roomId);
     
     boolean existsByName(String name);
+
+    @Query(
+        "SELECT new com.example.smartroom.device_management.dto.sensor.SensorStatisticsDTO(s.id, s.name, s.location, s.description, s.status, s.device.id, COUNT(DISTINCT sdt.dataType.id)) " + 
+        "FROM Sensor s LEFT JOIN s.sensorDataTypes sdt " + 
+        "WHERE s.id = :sensorId " +
+        "GROUP BY s.id, s.name, s.location, s.description, s.status, s.device.id"
+    )
+    SensorStatisticsDTO getSensorStatisticsById(@Param("sensorId") String sensorId);
 }

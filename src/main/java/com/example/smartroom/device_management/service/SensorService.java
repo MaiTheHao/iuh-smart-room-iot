@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.example.smartroom.device_management.dto.sensor.SensorCreateDTO;
 import com.example.smartroom.device_management.dto.sensor.SensorDTO;
+import com.example.smartroom.device_management.dto.sensor.SensorStatisticsDTO;
 
 public interface SensorService {
     SensorDTO createSensor(SensorCreateDTO dto);
@@ -16,4 +17,5 @@ public interface SensorService {
     Long countByDeviceId(String deviceId);
     Long countByHubId(String hubId);
     Long countByRoomId(String roomId);
+    SensorStatisticsDTO getSensorStatisticsById(String id);
 }
