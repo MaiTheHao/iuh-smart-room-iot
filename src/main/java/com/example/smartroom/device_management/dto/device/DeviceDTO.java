@@ -15,5 +15,6 @@ public record DeviceDTO(
     Instant updatedAt,
     Long createdBy,
     Long updatedBy,
-    Integer version
+    Integer version,
+    String connectionTypeId
 ){}

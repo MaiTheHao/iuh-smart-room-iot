@@ -30,6 +30,9 @@ public class DeviceCreateDTO {
     @NotNull(message = "Hub ID must not be empty")
     private String hubId;
 
+    @NotEmpty(message = "Connection Type Code must not be empty")
+    private String connectionTypeCode;
+
     private String description;
 
     private ComponentStatus status = ComponentStatus.OFFLINE;

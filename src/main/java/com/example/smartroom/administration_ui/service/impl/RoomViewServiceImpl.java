@@ -41,9 +41,9 @@ public class RoomViewServiceImpl implements RoomViewService {
     public RoomDetailViewDataDTO getRoomDetailViewData(String roomId, Pageable pageable) {
         RoomStatisticsDTO roomStats = roomService.getRoomStatisticsById(roomId);
         Page<HubDTO> hubsPage = hubService.getListByRoomId(roomId, pageable);
-        Long totalHub = roomStats.hubCount();
-        Long totalDevice = roomStats.deviceCount();
-        Long totalSensor = roomStats.sensorCount();
+        Long totalHub = roomStats.getHubCount();
+        Long totalDevice = roomStats.getDeviceCount();
+        Long totalSensor = roomStats.getSensorCount();
         return roomDetailViewDataMapper.toDTO(roomStats, hubsPage, totalHub, totalDevice, totalSensor);
     }
 }

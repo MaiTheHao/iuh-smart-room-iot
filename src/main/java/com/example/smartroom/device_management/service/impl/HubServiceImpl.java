@@ -19,6 +19,10 @@ import com.example.smartroom.device_management.service.HubService;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Triển khai dịch vụ quản lý hub, thực hiện các thao tác CRUD và thống kê.
+ * Liên kết với phòng để đảm bảo tính toàn vẹn dữ liệu.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -34,7 +38,7 @@ public class HubServiceImpl implements HubService {
             .orElseThrow(() -> new NotFoundException("Room with id " + dto.getRoomId() + " is not found"));
 
         if (hubRepository.existsById(dto.getId())) throw new BadRequestException("Hub with id " + dto.getId() + " already exists");
-
+        // Xử lý lỗi: Kiểm tra phòng tồn tại và hub không trùng ID, ném ngoại lệ tương ứng.
         Hub newHub = hubMapper.toEntity(dto, room);
         Hub savedHub = hubRepository.save(newHub);
         return hubMapper.toDTO(savedHub);
@@ -53,14 +57,14 @@ public class HubServiceImpl implements HubService {
 
     @Override
     public Page<HubDTO> getListByRoomId(String roomId, Pageable pageRequest) {
+        roomRepository.findById(roomId).orElseThrow(() -> new NotFoundException("Room with id " + roomId + " is not found"));
         return hubRepository.findByRoomId(roomId, pageRequest).map(hubMapper::toDTO);
     }
 
     @Override
     @Transactional
     public HubDTO deleteHubById(String id) {
-        Hub hub = hubRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("Hub with id " + id + " is not found"));
+        Hub hub = hubRepository.findById(id).orElseThrow(() -> new NotFoundException("Hub with id " + id + " is not found"));
         hubRepository.delete(hub);
         return hubMapper.toDTO(hub);
     }
@@ -72,11 +76,13 @@ public class HubServiceImpl implements HubService {
 
     @Override
     public Long countByRoomId(String roomId) {
+        roomRepository.findById(roomId).orElseThrow(() -> new NotFoundException("Room with id " + roomId + " is not found"));
         return hubRepository.countByRoomId(roomId);
     }
 
     @Override
     public HubStatisticsDTO getHubStatisticsById(String id) {
+        hubRepository.findById(id).orElseThrow(() -> new NotFoundException("Hub with id " + id + " is not found"));
         return hubRepository.getHubStatisticsById(id);
     }
 }

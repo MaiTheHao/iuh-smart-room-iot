@@ -3,21 +3,26 @@ package com.example.smartroom.administration_ui.constants;
 import lombok.experimental.UtilityClass;
 
 /**
- * Lớp chứa các hằng số đường dẫn đến các template view trong ứng dụng quản trị SmartRoom.
- * <p>
- * Các hằng số này được sử dụng để xác định vị trí các file giao diện cho các chức năng như Dashboard, Quản lý phòng, v.v.
- * </p>
+ * Hằng số tập trung cho đường dẫn template view.
  */
 @UtilityClass
 public class ViewTemplatePathConstants {
-    
-    // Base Path
+
+    /** Đường dẫn cơ bản cho tất cả các view */
     public static final String BASE_PATH = "pages/";
 
-    // Dashboard
-    public static final String DASHBOARD_INDEX = BASE_PATH + "dashboard/index";
+    /** Đường dẫn view liên quan đến Dashboard */
+    @UtilityClass
+    public static class Dashboard {
+        public static final String BASE_PATH = ViewTemplatePathConstants.BASE_PATH + "dashboard/";
+        public static final String INDEX = BASE_PATH + "index";
+    }
 
-    // Rooms
-    public static final String ROOMS_INDEX = BASE_PATH + "rooms/index";
-    public static final String ROOMS_DETAIL = BASE_PATH + "rooms/[id]";
+    /** Đường dẫn view liên quan đến quản lý phòng */
+    @UtilityClass
+    public static class Rooms {
+        public static final String BASE_PATH = ViewTemplatePathConstants.BASE_PATH + "rooms/";
+        public static final String INDEX = BASE_PATH + "index";
+        public static final String DETAIL = BASE_PATH + "[id]";
+    }
 }

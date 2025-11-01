@@ -1,36 +1,45 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/main}">
-	<head>
-		<title>Lỗi Máy Chủ</title>
-	</head>
-	<body>
-		<section class="content-header" layout:fragment="content-header">
-			<div class="container-fluid">
-				<div class="row mb-2">
-					<div class="col-sm-6">
-						<h1 class="text-danger"><i class="fas fa-server"></i> 500 - Lỗi máy chủ nội bộ</h1>
-					</div>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/main}">
+<head>
+<title>Lỗi Máy Chủ</title>
+</head>
+<body>
+	<section class="content-header" layout:fragment="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="text-danger">
+						<i class="fas fa-server"></i> 500 - Lỗi máy chủ nội bộ
+					</h1>
 				</div>
 			</div>
-		</section>
-		<div layout:fragment="content">
-			<div class="row justify-content-center">
-				<div class="col-md-8">
-					<div class="card card-danger mt-5 shadow">
-						<div class="card-header">
-							<h3 class="card-title"><i class="fas fa-exclamation-triangle"></i> Oops! Đã có lỗi xảy ra.</h3>
-						</div>
-						<div class="card-body text-center">
-							<h2 class="headline display-1 text-danger mb-4">500</h2>
-							<p th:text="${errorMessage}" class="lead mb-3">Đã có lỗi xảy ra trong quá trình xử lý yêu cầu của bạn.</p>
-							<p class="mb-4">
-								Chúng tôi sẽ khắc phục sự cố ngay lập tức.<br />
-								<a th:href="@{/administration/dashboard}" class="btn btn-danger"><i class="fas fa-arrow-left"></i> Quay lại Dashboard</a>
-							</p>
-						</div>
+		</div>
+	</section>
+	<div layout:fragment="content">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<div class="card card-danger mt-5 shadow">
+					<div class="card-header">
+						<h3 class="card-title">
+							<i class="fas fa-exclamation-triangle"></i> Oops! Đã có lỗi xảy
+							ra.
+						</h3>
+					</div>
+					<div class="card-body text-center">
+						<h2 class="headline display-1 text-danger mb-4">500</h2>
+						<p th:text="${errorMessage}" class="lead mb-3">Đã có lỗi xảy
+							ra trong quá trình xử lý yêu cầu của bạn.</p>
+						<p class="mb-4">
+							Chúng tôi sẽ khắc phục sự cố ngay lập tức.<br /> <a
+								th:href="@{/administration/dashboard}" class="btn btn-danger"><i
+								class="fas fa-arrow-left"></i> Quay lại Dashboard</a>
+						</p>
 					</div>
 				</div>
 			</div>
 		</div>
-	</body>
+	</div>
+</body>
 </html>

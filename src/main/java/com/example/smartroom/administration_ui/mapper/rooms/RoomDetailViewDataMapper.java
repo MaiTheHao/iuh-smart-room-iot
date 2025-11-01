@@ -2,11 +2,11 @@ package com.example.smartroom.administration_ui.mapper.rooms;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.springframework.data.domain.Page;
 
-import com.example.smartroom.administration_ui.dto.rooms.RoomDetailViewDataDTO;
-import com.example.smartroom.device_management.dto.room.RoomStatisticsDTO;
+import org.springframework.data.domain.Page;
 import com.example.smartroom.device_management.dto.hub.HubDTO;
+import com.example.smartroom.device_management.dto.room.RoomStatisticsDTO;
+import com.example.smartroom.administration_ui.dto.rooms.RoomDetailViewDataDTO;
 
 @Mapper(componentModel = "spring")
 public interface RoomDetailViewDataMapper {

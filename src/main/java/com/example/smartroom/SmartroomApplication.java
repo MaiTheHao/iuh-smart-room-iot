@@ -6,13 +6,13 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class DemoApplication extends SpringBootServletInitializer{
+public class SmartroomApplication extends SpringBootServletInitializer{
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(SmartroomApplication.class, args);
 	}
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(DemoApplication.class);
+		return builder.sources(SmartroomApplication.class);
 	}
 }

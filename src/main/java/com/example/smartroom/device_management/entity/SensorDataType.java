@@ -31,7 +31,7 @@ import lombok.AllArgsConstructor;
 @Table(
     name = "sensor_data_type",
     indexes = {
-        @Index(name = "idx_sensor_id_data_type_sensor_id", columnList = "sensor_id"),
+        @Index(name = "idx_sensor_id_data_type_sensor_id", columnList = "sensor_id, data_type_id"),
     },
     uniqueConstraints = {
         @UniqueConstraint(name = "uq_sensor_id_data_type_sensor_id", columnNames = {"sensor_id", "data_type_id"})

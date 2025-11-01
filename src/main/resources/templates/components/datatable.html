@@ -1,55 +1,55 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<body>
-		<div class="card" th:fragment="card(cardTitle, pageData, pageUrl, paramPrefix, tableContent, filterContent)">
-			<div class="card-header d-flex justify-content-between align-items-center">
-				<h3 class="card-title mb-0" th:text="${cardTitle}">Default Card Title</h3>
+<body>
+	<div class="card"
+		th:fragment="card(cardTitle, pageData, pageUrl, paramPrefix, tableContent, filterContent)">
+		<div
+			class="card-header d-flex justify-content-between align-items-center">
+			<h3 class="card-title mb-0" th:text="${cardTitle}">Default Card
+				Title</h3>
 
-				<div class="card-tools" th:if="${filterContent != null AND !#strings.isEmpty(filterContent.toString().trim())}">
-					<div th:replace="${filterContent}"></div>
-				</div>
+			<div class="card-tools"
+				th:if="${filterContent != null AND !#strings.isEmpty(filterContent.toString().trim())}">
+				<div th:replace="${filterContent}"></div>
 			</div>
-			<div class="card-body p-0">
-				<div th:replace="${tableContent}">
-					<p class="p-3">Lỗi: Fragment 'tableContent' chưa được định nghĩa.</p>
-				</div>
+		</div>
+		<div class="card-body p-0">
+			<div th:replace="${tableContent}">
+				<p class="p-3">Lỗi: Fragment 'tableContent' chưa được định
+					nghĩa.</p>
 			</div>
-			<div
-				class="card-footer d-flex justify-content-between align-items-center flex-wrap"
-				th:if="${pageData != null && pageData.totalPages > 0}"
-				th:with="
+		</div>
+		<div
+			class="card-footer d-flex justify-content-between align-items-center flex-wrap"
+			th:if="${pageData != null && pageData.totalPages > 0}"
+			th:with="
                     pageParamName=${paramPrefix != null} ? ${paramPrefix} + 'Page' : 'page',
                     sizeParamName=${paramPrefix != null} ? ${paramPrefix} + 'Size' : 'size'
-                "
-			>
-				<div
-					class="text-muted"
-					th:if="${pageData.totalElements > 0}"
-					th:with="
+                ">
+			<div class="text-muted" th:if="${pageData.totalElements > 0}"
+				th:with="
                         startRecord = (${pageData.number} * ${pageData.size}) + 1,
                         endRecord = (${pageData.number} * ${pageData.size}) + ${pageData.numberOfElements}
                     "
-					th:text="'Hiển thị ' + ${startRecord} + ' đến ' + ${endRecord} + ' trong ' + ${pageData.totalElements} + ' mục'"
-				>
-					Hiển thị 1 đến 10 trong 57 mục
-				</div>
+				th:text="'Hiển thị ' + ${startRecord} + ' đến ' + ${endRecord} + ' trong ' + ${pageData.totalElements} + ' mục'">
+				Hiển thị 1 đến 10 trong 57 mục</div>
 
-				<div class="d-flex align-items-center gap-2" th:if="${pageData.totalPages > 1}">
-					<label class="mb-0" style="font-weight: normal">
-						Số hàng:
-						<select
-							class="form-control form-control-sm d-inline-block"
-							style="width: auto"
-							th:onchange="'_handlePageSizeChange(\'' + ${pageParamName} + '\', \'' + ${sizeParamName} + '\', this.value)'"
-						>
-							<option th:each="s : ${ {10, 25, 50, 100} }" th:value="${s}" th:text="${s}" th:selected="${s == pageData.size}"></option>
-						</select>
-					</label>
+			<div class="d-flex align-items-center gap-2"
+				th:if="${pageData.totalPages > 1}">
+				<label class="mb-0" style="font-weight: normal"> Số hàng: <select
+					class="form-control form-control-sm d-inline-block"
+					style="width: auto"
+					th:onchange="'_handlePageSizeChange(\'' + ${pageParamName} + '\', \'' + ${sizeParamName} + '\', this.value)'">
+						<option th:each="s : ${ {10, 25, 50, 100} }" th:value="${s}"
+							th:text="${s}" th:selected="${s == pageData.size}"></option>
+				</select>
+				</label>
 
-					<div th:replace="~{components/pagination :: paging(pageData=${pageData}, pageUrl=${pageUrl}, paramPrefix=${paramPrefix})}"></div>
-				</div>
+				<div
+					th:replace="~{components/pagination :: paging(pageData=${pageData}, pageUrl=${pageUrl}, paramPrefix=${paramPrefix})}"></div>
+			</div>
 
-				<script th:inline="javascript">
+			<script th:inline="javascript">
 					/* <![CDATA[ */
 					if (typeof _handlePageSizeChange === 'undefined') {
 						function _handlePageSizeChange(pageParamName, sizeParamName, newSize) {
@@ -61,7 +61,7 @@
 					}
 					/* ]]> */
 				</script>
-			</div>
 		</div>
-	</body>
+	</div>
+</body>
 </html>

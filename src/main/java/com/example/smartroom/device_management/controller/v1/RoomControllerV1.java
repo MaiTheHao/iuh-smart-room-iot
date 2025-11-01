@@ -1,8 +1,9 @@
 package com.example.smartroom.device_management.controller.v1;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.smartroom.common.util.ApiResponse;
+import com.example.smartroom.common.vo.ApiResponse;
 import com.example.smartroom.device_management.dto.room.RoomCreateDTO;
 import com.example.smartroom.device_management.dto.room.RoomDTO;
 import com.example.smartroom.device_management.service.RoomService;
@@ -30,10 +31,10 @@ public class RoomControllerV1 {
 
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getAllRooms(
-        @RequestParam(defaultValue = "0") Integer page,
-        @RequestParam(defaultValue = "10") Integer size) {
-        Pageable pageRequest = PageRequest.of(page, size);
-        Page<RoomDTO> rooms = roomService.getList(pageRequest);
+    		@RequestParam(required = false) String search,
+    		@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable
+    	) {
+        Page<RoomDTO> rooms = roomService.getList(search, pageable);
 
         ApiResponse<?> response = ApiResponse.success(
             org.springframework.http.HttpStatus.OK,

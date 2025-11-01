@@ -2,8 +2,8 @@ package com.example.smartroom.administration_ui.controller.v1;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort; // Thêm import này
-import org.springframework.data.web.PageableDefault; // Thêm import này
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,17 +26,10 @@ public class RoomViewControllerV1 {
         @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
         Model model
     ) {
-        // 3. (BẮT BUỘC) Cập nhật service call để truyền 'search'
-        // Bạn SẼ CẦN SỬA LẠI RoomViewService.getRoomListViewData 
-        // để chấp nhận tham số 'search'.
         RoomListViewDataDTO roomListViewData = roomViewService.getRoomListViewData(search, pageable);
         
         model.addAttribute("roomListViewData", roomListViewData);
-        
-        // Không cần add 'search' vào model, vì fragment 'roomFilters'
-        // của chúng ta đã dùng 'param.search' để tự điền lại giá trị.
-        
-        return ViewTemplatePathConstants.ROOMS_INDEX;
+        return ViewTemplatePathConstants.Rooms.INDEX;
     }
 
     @GetMapping("/rooms/{id}")
@@ -47,6 +40,6 @@ public class RoomViewControllerV1 {
     ) {
         RoomDetailViewDataDTO roomDetailViewData = roomViewService.getRoomDetailViewData(id, pageable);
         model.addAttribute("roomDetailViewData", roomDetailViewData);
-        return ViewTemplatePathConstants.ROOMS_DETAIL;
+        return ViewTemplatePathConstants.Rooms.DETAIL;
     }
 }

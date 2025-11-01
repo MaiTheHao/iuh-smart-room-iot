@@ -1,7 +1,6 @@
 package com.example.smartroom.device_management.mapper;
 
 import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
 
 import com.example.smartroom.device_management.dto.hub.HubCreateDTO;
 import com.example.smartroom.device_management.dto.hub.HubDTO;
@@ -10,9 +9,6 @@ import com.example.smartroom.device_management.entity.Room;
 
 @Mapper(componentModel = "spring")
 public interface HubMapper {
-
-    HubMapper INSTANCE = Mappers.getMapper(HubMapper.class);
-
     @Mapping(source = "room.id", target = "roomId")
     HubDTO toDTO(Hub hub);
 

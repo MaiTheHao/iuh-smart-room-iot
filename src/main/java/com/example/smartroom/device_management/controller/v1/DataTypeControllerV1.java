@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.smartroom.common.util.ApiResponse;
+import com.example.smartroom.common.vo.ApiResponse;
 import com.example.smartroom.device_management.dto.data_type.DataTypeCreateDTO;
 import com.example.smartroom.device_management.dto.data_type.DataTypeDTO;
 import com.example.smartroom.device_management.service.DataTypeService;

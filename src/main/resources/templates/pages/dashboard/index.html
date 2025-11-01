@@ -4,128 +4,144 @@
   - xmlns:th: Cho các thuộc tính của Thymeleaf (ví dụ: th:text, th:href).
   - xmlns:layout: Cho Thymeleaf Layout Dialect (ví dụ: layout:decorate, layout:fragment).
 -->
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/main}">
-	<head>
-		<title>Dashboard</title>
-	</head>
-	<body>
-		<!-- Import fragments từ icons.html -->
-		<div th:replace="~{components/icons :: hubIcon}"></div>
-		<div th:replace="~{components/icons :: roomIcon}"></div>
-		<div th:replace="~{components/icons :: deviceIcon}"></div>
-		<div th:replace="~{components/icons :: sensorIcon}"></div>
-		<!-- 
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/main}">
+<head>
+<title>Dashboard</title>
+</head>
+<body>
+	<!-- Import fragments từ icons.html -->
+	<div th:replace="~{components/icons :: hubIcon}"></div>
+	<div th:replace="~{components/icons :: roomIcon}"></div>
+	<div th:replace="~{components/icons :: deviceIcon}"></div>
+	<div th:replace="~{components/icons :: sensorIcon}"></div>
+	<!-- 
       Định nghĩa phần nội dung (content) sẽ được chèn vào layout chính (layouts/main).
     -->
-		<section layout:fragment="content">
-			<!-- Hàng chứa các thẻ thống kê nhanh (Small Boxes) -->
-			<div class="row">
-				<!-- Thẻ thống kê: Tổng số Phòng -->
-				<div class="col-lg-3 col-6">
-					<div class="small-box bg-info">
-						<div class="inner">
-							<!-- 
+	<section layout:fragment="content">
+		<!-- Hàng chứa các thẻ thống kê nhanh (Small Boxes) -->
+		<div class="row">
+			<!-- Thẻ thống kê: Tổng số Phòng -->
+			<div class="col-lg-3 col-6">
+				<div class="small-box bg-info">
+					<div class="inner">
+						<!-- 
                           Sử dụng th:text để hiển thị động dữ liệu từ model.
                           Giá trị "150" chỉ là placeholder, sẽ bị thay thế.
                         -->
-							<h3 th:text="${dashboardData.rooms.totalElements}">150</h3>
-							<p>Tổng số Phòng</p>
-						</div>
-						<div class="icon">
-							<!-- Sử dụng fragment roomIcon -->
-							<span th:replace="~{components/icons :: roomIcon}"></span>
-						</div>
-						<!-- 
+						<h3 th:text="${dashboardData.rooms.totalElements}">150</h3>
+						<p>Tổng số Phòng</p>
+					</div>
+					<div class="icon">
+						<!-- Sử dụng fragment roomIcon -->
+						<span th:replace="~{components/icons :: roomIcon}"></span>
+					</div>
+					<!-- 
                       Sử dụng th:href và @{...} để tạo URL động, an toàn.
                     -->
-						<a th:href="@{/administration/components/rooms}" class="small-box-footer"> Xem chi tiết <i class="fas fa-arrow-circle-right"></i> </a>
-					</div>
-				</div>
-
-				<!-- Thẻ thống kê: Tổng số Hub -->
-				<div class="col-lg-3 col-6">
-					<div class="small-box bg-success">
-						<div class="inner">
-							<h3 th:text="${dashboardData.hubs.totalElements}">53</h3>
-							<p>Tổng số Hub</p>
-						</div>
-						<div class="icon">
-							<!-- Sử dụng fragment hubIcon -->
-							<span th:replace="~{components/icons :: hubIcon}"></span>
-						</div>
-						<a th:href="@{/administration/components/hubs}" class="small-box-footer"> Xem chi tiết <i class="fas fa-arrow-circle-right"></i> </a>
-					</div>
-				</div>
-
-				<!-- Thẻ thống kê: Tổng số Thiết bị -->
-				<div class="col-lg-3 col-6">
-					<div class="small-box bg-warning">
-						<div class="inner">
-							<h3 th:text="${dashboardData.devices.totalElements}">44</h3>
-							<p>Tổng số Thiết bị</p>
-						</div>
-						<div class="icon">
-							<!-- Sử dụng fragment deviceIcon -->
-							<span th:replace="~{components/icons :: deviceIcon}"></span>
-						</div>
-						<a th:href="@{/administration/components/devices}" class="small-box-footer"> Xem chi tiết <i class="fas fa-arrow-circle-right"></i> </a>
-					</div>
-				</div>
-
-				<!-- Thẻ thống kê: Tổng số Cảm biến -->
-				<div class="col-lg-3 col-6">
-					<div class="small-box bg-danger">
-						<div class="inner">
-							<h3 th:text="${dashboardData.sensors.totalElements}">65</h3>
-							<p>Tổng số Cảm biến</p>
-						</div>
-						<div class="icon">
-							<!-- Sử dụng fragment sensorIcon -->
-							<span th:replace="~{components/icons :: sensorIcon}"></span>
-						</div>
-						<a th:href="@{/administration/components/sensors}" class="small-box-footer"> Xem chi tiết <i class="fas fa-arrow-circle-right"></i> </a>
-					</div>
+					<a th:href="@{/administration/components/rooms}"
+						class="small-box-footer"> Xem chi tiết <i
+						class="fas fa-arrow-circle-right"></i>
+					</a>
 				</div>
 			</div>
-			<!-- /.row -->
 
-			<!-- Hàng chứa biểu đồ thống kê -->
-			<div class="row">
-				<div class="col-md-12">
-					<!-- Card chứa biểu đồ -->
-					<div class="card card-primary">
-						<div class="card-header">
-							<h3 class="card-title">Thống kê số lượng</h3>
-							<div class="card-tools">
-								<!-- Nút thu gọn/mở rộng card -->
-								<button type="button" class="btn btn-tool" data-card-widget="collapse">
-									<i class="fas fa-minus"></i>
-								</button>
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="chart">
-								<!-- Phần tử Canvas để Chart.js vẽ biểu đồ -->
-								<canvas id="quantityChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%"></canvas>
-							</div>
-						</div>
-						<!-- /.card-body -->
+			<!-- Thẻ thống kê: Tổng số Hub -->
+			<div class="col-lg-3 col-6">
+				<div class="small-box bg-success">
+					<div class="inner">
+						<h3 th:text="${dashboardData.hubs.totalElements}">53</h3>
+						<p>Tổng số Hub</p>
 					</div>
-					<!-- /.card -->
+					<div class="icon">
+						<!-- Sử dụng fragment hubIcon -->
+						<span th:replace="~{components/icons :: hubIcon}"></span>
+					</div>
+					<a th:href="@{/administration/components/hubs}"
+						class="small-box-footer"> Xem chi tiết <i
+						class="fas fa-arrow-circle-right"></i>
+					</a>
 				</div>
 			</div>
-			<!-- /.row -->
-		</section>
 
-		<!-- 
+			<!-- Thẻ thống kê: Tổng số Thiết bị -->
+			<div class="col-lg-3 col-6">
+				<div class="small-box bg-warning">
+					<div class="inner">
+						<h3 th:text="${dashboardData.devices.totalElements}">44</h3>
+						<p>Tổng số Thiết bị</p>
+					</div>
+					<div class="icon">
+						<!-- Sử dụng fragment deviceIcon -->
+						<span th:replace="~{components/icons :: deviceIcon}"></span>
+					</div>
+					<a th:href="@{/administration/components/devices}"
+						class="small-box-footer"> Xem chi tiết <i
+						class="fas fa-arrow-circle-right"></i>
+					</a>
+				</div>
+			</div>
+
+			<!-- Thẻ thống kê: Tổng số Cảm biến -->
+			<div class="col-lg-3 col-6">
+				<div class="small-box bg-danger">
+					<div class="inner">
+						<h3 th:text="${dashboardData.sensors.totalElements}">65</h3>
+						<p>Tổng số Cảm biến</p>
+					</div>
+					<div class="icon">
+						<!-- Sử dụng fragment sensorIcon -->
+						<span th:replace="~{components/icons :: sensorIcon}"></span>
+					</div>
+					<a th:href="@{/administration/components/sensors}"
+						class="small-box-footer"> Xem chi tiết <i
+						class="fas fa-arrow-circle-right"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- /.row -->
+
+		<!-- Hàng chứa biểu đồ thống kê -->
+		<div class="row">
+			<div class="col-md-12">
+				<!-- Card chứa biểu đồ -->
+				<div class="card card-primary">
+					<div class="card-header">
+						<h3 class="card-title">Thống kê số lượng</h3>
+						<div class="card-tools">
+							<!-- Nút thu gọn/mở rộng card -->
+							<button type="button" class="btn btn-tool"
+								data-card-widget="collapse">
+								<i class="fas fa-minus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="chart">
+							<!-- Phần tử Canvas để Chart.js vẽ biểu đồ -->
+							<canvas id="quantityChart"
+								style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%"></canvas>
+						</div>
+					</div>
+					<!-- /.card-body -->
+				</div>
+				<!-- /.card -->
+			</div>
+		</div>
+		<!-- /.row -->
+	</section>
+
+	<!-- 
       Định nghĩa phần script sẽ được chèn vào layout chính.
     -->
-		<th:block layout:fragment="scripts">
-			<!-- 
+	<th:block layout:fragment="scripts">
+		<!-- 
           Bật chế độ "inline" cho JavaScript của Thymeleaf.
           Điều này cho phép chúng ta nhúng an toàn các biến từ model vào JS.
         -->
-			<script th:inline="javascript">
+		<script th:inline="javascript">
 				/*<![CDATA[*/
 
 				// Chạy script khi tài liệu (DOM) đã sẵn sàng
@@ -229,6 +245,6 @@
 
 				/*]]>*/
 			</script>
-		</th:block>
-	</body>
+	</th:block>
+</body>
 </html>

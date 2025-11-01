@@ -1,86 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<body>
-		<ul
-			class="pagination pagination-sm m-0"
-			th:fragment="paging(pageData, pageUrl, paramPrefix)"
-			th:if="${pageData != null && pageData.totalPages > 1}"
-			th:with="
+<body>
+	<ul class="pagination pagination-sm m-0"
+		th:fragment="paging(pageData, pageUrl, paramPrefix)"
+		th:if="${pageData != null && pageData.totalPages > 1}"
+		th:with="
 				pageParamName=${paramPrefix != null} ? ${paramPrefix} + 'Page' : 'page',
 				sizeParamName=${paramPrefix != null} ? ${paramPrefix} + 'Size' : 'size'
-			"
-		>
-			<li class="page-item" th:classappend="${pageData.first} ? 'disabled' : ''">
-				<a
-					class="page-link"
-					th:href="@{${pageUrl}(
+			">
+		<li class="page-item"
+			th:classappend="${pageData.first} ? 'disabled' : ''"><a
+			class="page-link"
+			th:href="@{${pageUrl}(
 						${pageParamName}=${pageData.number - 1},
 						${sizeParamName}=${pageData.size}
-					)}"
-				>
-					<i class="fas fa-angle-left"></i>
-				</a>
-			</li>
+					)}">
+				<i class="fas fa-angle-left"></i>
+		</a></li>
 
-			<th:block
-				th:with="
+		<th:block
+			th:with="
 					currentPage=${pageData.number},
 					totalPages=${pageData.totalPages},
 					startPage=${T(java.lang.Math).max(0, currentPage - 2)},
 					endPage=${T(java.lang.Math).min(totalPages - 1, currentPage + 2)}
-				"
-			>
-				<li class="page-item" th:if="${startPage > 0}">
-					<a
-						class="page-link"
-						th:href="@{${pageUrl}(
+				">
+			<li class="page-item" th:if="${startPage > 0}"><a
+				class="page-link"
+				th:href="@{${pageUrl}(
 							${pageParamName}=0,
 							${sizeParamName}=${pageData.size}
-						)}"
-						>1</a
-					>
-				</li>
-				<li class="page-item disabled" th:if="${startPage > 1}">
-					<span class="page-link">...</span>
-				</li>
+						)}">1</a>
+			</li>
+			<li class="page-item disabled" th:if="${startPage > 1}"><span
+				class="page-link">...</span></li>
 
-				<li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}" th:classappend="${i == currentPage} ? 'active' : ''">
-					<a
-						class="page-link"
-						th:href="@{${pageUrl}(
+			<li class="page-item"
+				th:each="i : ${#numbers.sequence(startPage, endPage)}"
+				th:classappend="${i == currentPage} ? 'active' : ''"><a
+				class="page-link"
+				th:href="@{${pageUrl}(
 							${pageParamName}=${i},
 							${sizeParamName}=${pageData.size}
 						)}"
-						th:text="${i + 1}"
-					></a>
-				</li>
+				th:text="${i + 1}"></a></li>
 
-				<li class="page-item disabled" th:if="${endPage < totalPages - 2}">
-					<span class="page-link">...</span>
-				</li>
-				<li class="page-item" th:if="${endPage < totalPages - 1}">
-					<a
-						class="page-link"
-						th:href="@{${pageUrl}(
+			<li class="page-item disabled" th:if="${endPage < totalPages - 2}">
+				<span class="page-link">...</span>
+			</li>
+			<li class="page-item" th:if="${endPage < totalPages - 1}"><a
+				class="page-link"
+				th:href="@{${pageUrl}(
 							${pageParamName}=${totalPages - 1},
 							${sizeParamName}=${pageData.size}
 						)}"
-						th:text="${totalPages}"
-					></a>
-				</li>
-			</th:block>
+				th:text="${totalPages}"></a></li>
+		</th:block>
 
-			<li class="page-item" th:classappend="${pageData.last} ? 'disabled' : ''">
-				<a
-					class="page-link"
-					th:href="@{${pageUrl}(
+		<li class="page-item"
+			th:classappend="${pageData.last} ? 'disabled' : ''"><a
+			class="page-link"
+			th:href="@{${pageUrl}(
 						${pageParamName}=${pageData.number + 1},
 						${sizeParamName}=${pageData.size}
-					)}"
-				>
-					<i class="fas fa-angle-right"></i>
-				</a>
-			</li>
-		</ul>
-	</body>
+					)}">
+				<i class="fas fa-angle-right"></i>
+		</a></li>
+	</ul>
+</body>
 </html>

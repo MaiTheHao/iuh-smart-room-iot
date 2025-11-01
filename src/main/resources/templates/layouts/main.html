@@ -1,44 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title layout:title-pattern="$CONTENT_TITLE | SmartRoom">SmartRoom</title>
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
-		<link rel="stylesheet" th:href="@{/webjars/font-awesome/5.15.4/css/all.min.css}" />
-		<link rel="stylesheet" th:href="@{/webjars/AdminLTE/dist/css/adminlte.min.css}" />
-	</head>
-	<body class="hold-transition sidebar-mini">
-		<div class="wrapper">
-			<div th:replace="~{layouts/components/main-header :: main-header}"></div>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title layout:title-pattern="$CONTENT_TITLE | SmartRoom">SmartRoom</title>
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
+<link rel="stylesheet"
+	th:href="@{/webjars/font-awesome/5.15.4/css/all.min.css}" />
+<link rel="stylesheet"
+	th:href="@{/webjars/AdminLTE/dist/css/adminlte.min.css}" />
+</head>
+<body class="hold-transition sidebar-mini">
+	<div class="wrapper">
+		<div th:replace="~{layouts/components/main-header :: main-header}"></div>
 
-			<div th:replace="~{layouts/components/main-sidebar :: main-sidebar}"></div>
+		<div th:replace="~{layouts/components/main-sidebar :: main-sidebar}"></div>
 
-			<div class="content-wrapper">
-				<section class="content-header" layout:fragment="content-header">
-					<div class="container-fluid">
-						<div class="row mb-2">
-							<div class="col-sm-6">
-								<h1>Trang chính</h1>
-							</div>
+		<div class="content-wrapper">
+			<section class="content-header" layout:fragment="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Trang chính</h1>
 						</div>
 					</div>
-				</section>
+				</div>
+			</section>
 
-				<section class="content">
-					<div class="container-fluid">
-						<div layout:fragment="content">
-							<p>Đây là nội dung mặc định.</p>
-						</div>
+			<section class="content">
+				<div class="container-fluid">
+					<div layout:fragment="content">
+						<p>Đây là nội dung mặc định.</p>
 					</div>
-				</section>
-			</div>
-			<div th:replace="~{layouts/components/main-footer :: main-footer}"></div>
+				</div>
+			</section>
 		</div>
-		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-		<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
-		<script th:src="@{/webjars/AdminLTE/dist/js/adminlte.min.js}"></script>
-		<script th:src="@{/webjars/AdminLTE/plugins/chart.js/Chart.min.js}"></script>
-		<th:block layout:fragment="scripts"></th:block>
-	</body>
+		<div th:replace="~{layouts/components/main-footer :: main-footer}"></div>
+	</div>
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/webjars/AdminLTE/dist/js/adminlte.min.js}"></script>
+	<script th:src="@{/webjars/AdminLTE/plugins/chart.js/Chart.min.js}"></script>
+	<th:block layout:fragment="scripts"></th:block>
+</body>
 </html>

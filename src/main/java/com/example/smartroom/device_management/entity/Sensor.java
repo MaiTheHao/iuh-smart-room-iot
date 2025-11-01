@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.example.smartroom.common.abstraction.AbstractAuditableEntity;
+import com.example.smartroom.common.annotation.Filterable;
+import com.example.smartroom.common.annotation.Searchable;
+import com.example.smartroom.common.annotation.Sortable;
 import com.example.smartroom.common.converter.ComponentStatusConverter;
 import com.example.smartroom.common.enumeration.ComponentStatus;
 import com.example.smartroom.data_ingestion.entity.SensorData;
@@ -18,10 +21,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Setter;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.Setter;
 
 /**
  * Entity đại diện cho cảm biến bên trong một thiết bị.
@@ -30,7 +33,7 @@ import lombok.AllArgsConstructor;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
 @Table(name = "sensor")
 public class Sensor extends AbstractAuditableEntity {
@@ -38,23 +41,31 @@ public class Sensor extends AbstractAuditableEntity {
      * Khóa chính của cảm biến.
      */
     @Id
+    @Sortable
+    @Searchable
     private String id;
 
     /**
      * Tên cảm biến.
      */
+    @Sortable
+    @Searchable
     @Column(name = "name", nullable = false)
     private String name;
 
     /**
      * Vị trí của cảm biến theo device.
      */
+    @Sortable
+    @Searchable
     @Column(name = "location", nullable = false)
     private String location;
 
     /**
      * Trạng thái cảm biến.
      */
+    @Sortable
+    @Filterable
     @Column(name = "status", nullable = false)
     @Convert(converter = ComponentStatusConverter.class)
     private ComponentStatus status;
@@ -66,17 +77,17 @@ public class Sensor extends AbstractAuditableEntity {
     private String description;
 
     /**
-     * Thiết bị chứa cảm biến này.
+     * Thiết bị chứa cảm biến này. Quan hệ ManyToOne với Device.
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "device_id", nullable = false)
     private Device device;
 
     /**
-     * Các loại dữ liệu mà cảm biến này có thể đo.
+     * Các loại dữ liệu mà cảm biến này có thể đo. Quan hệ OneToMany với SensorDataType.
      */
     @OneToMany(
-        mappedBy = "sensor",
+        mappedBy= "sensor",
         cascade = CascadeType.ALL,
         orphanRemoval = true,
         fetch = FetchType.LAZY
@@ -84,28 +95,13 @@ public class Sensor extends AbstractAuditableEntity {
     private Set<SensorDataType> sensorDataTypes = new HashSet<>();
     
     /**
-     * Các dữ liệu mà cảm biến này thu thập được.
+     * Các dữ liệu mà cảm biến này thu thập được. Quan hệ OneToMany với SensorData.
      */
     @OneToMany(
-    		mappedBy = "sensor",
-    		cascade = CascadeType.ALL,
-    		orphanRemoval = true,
-    		fetch = FetchType.LAZY 
-    	)
+        mappedBy = "sensor",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true,
+        fetch = FetchType.LAZY 
+    )
     private Set<SensorData> sensorDatas = new HashSet<>();
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Sensor)) return false;
-        
-        Sensor sensor = (Sensor) o;
-
-        return id != null && id.equals(sensor.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
 }

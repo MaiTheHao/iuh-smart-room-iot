@@ -1,12 +1,10 @@
-package com.example.smartroom.common.util;
+package com.example.smartroom.common.vo;
 
 import java.time.Instant;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-
-import com.example.smartroom.common.vo.PaginationInfo;
 
 /**
  * ApiResponse là một record dùng để chuẩn hóa cấu trúc phản hồi API.

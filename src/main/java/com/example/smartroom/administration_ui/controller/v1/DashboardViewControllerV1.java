@@ -37,6 +37,6 @@ public class DashboardViewControllerV1 {
         Pageable sensorPageable = PageRequest.of(sensorPage, sensorSize);
 
         model.addAttribute("dashboardData", dashboardService.getDashboardData(roomPageable, hubPageable, devicePageable, sensorPageable));
-        return ViewTemplatePathConstants.DASHBOARD_INDEX;
+        return ViewTemplatePathConstants.Dashboard.INDEX;
     }
 }

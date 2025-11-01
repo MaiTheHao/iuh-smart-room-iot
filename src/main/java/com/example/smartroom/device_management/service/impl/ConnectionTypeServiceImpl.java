@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ConnectionTypeServiceImpl implements ConnectionTypeService{
+public class ConnectionTypeServiceImpl implements ConnectionTypeService {
     
     private final ConnectionTypeRepository connectionTypeRepository;
     private final ConnectionTypeMapper connectionTypeMapper;

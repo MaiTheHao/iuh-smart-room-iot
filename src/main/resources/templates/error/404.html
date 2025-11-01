@@ -1,33 +1,43 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/main}">
-	<head>
-		<title>Không Tìm Thấy Trang</title>
-	</head>
-	<body>
-		<section class="content-header" layout:fragment="content-header">
-			<div class="container-fluid">
-				<div class="row mb-2">
-					<div class="col-sm-6">
-						<h1 class="text-warning"><i class="fas fa-exclamation-triangle"></i> 404 - Không tìm thấy trang</h1>
-					</div>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/main}">
+<head>
+<title>Không Tìm Thấy Trang</title>
+</head>
+<body>
+	<section class="content-header" layout:fragment="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="text-warning">
+						<i class="fas fa-exclamation-triangle"></i> 404 - Không tìm thấy
+						trang
+					</h1>
 				</div>
 			</div>
-		</section>
-		<div layout:fragment="content">
-			<div class="row justify-content-center">
-				<div class="col-md-8">
-					<div class="card card-warning mt-5 shadow">
-						<div class="card-header">
-							<h3 class="card-title"><i class="fas fa-exclamation-triangle"></i> Oops! Không tìm thấy trang.</h3>
-						</div>
-						<div class="card-body text-center">
-							<h2 class="headline display-1 text-warning mb-4">404</h2>
-							<p th:text="${errorMessage}" class="lead mb-3">Rất tiếc, trang bạn đang tìm kiếm không tồn tại.</p>
-							<a th:href="@{/administration/dashboard}" class="btn btn-warning"><i class="fas fa-arrow-left"></i> Quay lại Dashboard</a>
-						</div>
+		</div>
+	</section>
+	<div layout:fragment="content">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<div class="card card-warning mt-5 shadow">
+					<div class="card-header">
+						<h3 class="card-title">
+							<i class="fas fa-exclamation-triangle"></i> Oops! Không tìm thấy
+							trang.
+						</h3>
+					</div>
+					<div class="card-body text-center">
+						<h2 class="headline display-1 text-warning mb-4">404</h2>
+						<p th:text="${errorMessage}" class="lead mb-3">Rất tiếc, trang
+							bạn đang tìm kiếm không tồn tại.</p>
+						<a th:href="@{/administration/dashboard}" class="btn btn-warning"><i
+							class="fas fa-arrow-left"></i> Quay lại Dashboard</a>
 					</div>
 				</div>
 			</div>
 		</div>
-	</body>
+	</div>
+</body>
 </html>

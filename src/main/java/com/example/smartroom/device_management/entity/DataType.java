@@ -1,19 +1,25 @@
 package com.example.smartroom.device_management.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.example.smartroom.common.abstraction.AbstractAuditableEntity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.Setter;
 
 /**
  * Entity định nghĩa loại dữ liệu đo được bởi cảm biến (ví dụ: nhiệt độ, độ ẩm).
@@ -21,7 +27,7 @@ import lombok.AllArgsConstructor;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode(of = "code", callSuper = false)
 @Entity
 @Table(
     name = "data_type",
@@ -64,18 +70,14 @@ public class DataType extends AbstractAuditableEntity {
     @Column(name = "unit", nullable = false)
     private String unit;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        
-        DataType dataType = (DataType) o;
-
-        return code != null && code.equals(dataType.code);
-    }
-
-    @Override
-    public int hashCode() {
-        return code != null ? code.hashCode() : 0;
-    }
+    /**
+     * Các cảm biến có thể đo loại dữ liệu này.
+     */
+    @OneToMany(
+        mappedBy = "dataType",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true,
+        fetch = FetchType.LAZY
+    )
+    private Set<SensorDataType> sensorDataTypes = new HashSet<>();
 }

@@ -19,7 +19,6 @@ import com.example.smartroom.device_management.service.SensorDataTypeService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,9 +51,10 @@ public class SensorDataTypeServiceImpl implements SensorDataTypeService {
     }
 
     @Override
-    public Optional<SensorDataTypeDTO> getSensorDataTypeById(String sensorId, Long dataTypeId) {
+    public SensorDataTypeDTO getSensorDataTypeById(String sensorId, Long dataTypeId) {
         return sensorDataTypeRepository.findBySensorIdAndDataTypeId(sensorId, dataTypeId)
-                .map(sensorDataTypeMapper::toDTO);
+                .map(sensorDataTypeMapper::toDTO)
+                .orElseThrow(() -> new NotFoundException("SensorDataType with sensorId " + sensorId + " and dataTypeId " + dataTypeId + " not found"));
     }
 
     @Override
@@ -65,6 +65,7 @@ public class SensorDataTypeServiceImpl implements SensorDataTypeService {
 
     @Override
     public List<SensorDataTypeDTO> getListBySensorId(String sensorId, Pageable pageRequest) {
+        sensorRepository.findById(sensorId).orElseThrow(() -> new NotFoundException("Sensor with id " + sensorId + " not found"));
         return sensorDataTypeRepository.findBySensorId(sensorId, pageRequest)
                 .stream()
                 .map(sensorDataTypeMapper::toDTO)
@@ -73,6 +74,7 @@ public class SensorDataTypeServiceImpl implements SensorDataTypeService {
 
     @Override
     public List<SensorDataTypeDTO> getListByDataTypeId(Long dataTypeId, Pageable pageRequest) {
+        dataTypeRepository.findById(dataTypeId).orElseThrow(() -> new NotFoundException("Data type with id " + dataTypeId + " not found"));
         return sensorDataTypeRepository.findByDataTypeId(dataTypeId, pageRequest)
                 .stream()
                 .map(sensorDataTypeMapper::toDTO)
@@ -87,8 +89,7 @@ public class SensorDataTypeServiceImpl implements SensorDataTypeService {
     @Override
     @Transactional
     public SensorDataTypeDTO deleteSensorDataTypeById(String sensorId, Long dataTypeId) {
-        SensorDataType sensorDataType = sensorDataTypeRepository.findBySensorIdAndDataTypeId(sensorId, dataTypeId)
-                .orElseThrow(() -> new RuntimeException("SensorDataType with sensorId " + sensorId + " and dataTypeId " + dataTypeId + " not found"));
+        SensorDataType sensorDataType = sensorDataTypeRepository.findBySensorIdAndDataTypeId(sensorId, dataTypeId).orElseThrow(() -> new RuntimeException("SensorDataType with sensorId " + sensorId + " and dataTypeId " + dataTypeId + " not found"));
         sensorDataTypeRepository.delete(sensorDataType);
         return sensorDataTypeMapper.toDTO(sensorDataType);
     }

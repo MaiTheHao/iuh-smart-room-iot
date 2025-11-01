@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.smartroom.common.util.ApiResponse;
+import com.example.smartroom.common.vo.ApiResponse;
 import com.example.smartroom.device_management.dto.sensor.SensorCreateDTO;
 import com.example.smartroom.device_management.dto.sensor.SensorDTO;
 import com.example.smartroom.device_management.service.SensorDataTypeService;
@@ -88,8 +88,8 @@ public class SensorControllerV1 {
     @GetMapping("/{id}/data-types")
     public ResponseEntity<ApiResponse<?>> getSensorDataTypes(
         @PathVariable String id,
-        @RequestParam(required = false) int page,
-        @RequestParam(required = false) int size
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size
     ) {
         Pageable pageRequest = PageRequest.of(page, size);
         var dataTypes = sensorDataTypeService.getListBySensorId(id, pageRequest);

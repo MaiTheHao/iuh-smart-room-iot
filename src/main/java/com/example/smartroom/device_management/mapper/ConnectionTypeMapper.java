@@ -3,7 +3,6 @@ package com.example.smartroom.device_management.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.factory.Mappers;
 
 import com.example.smartroom.device_management.dto.connection_type.ConnectionTypeCreateDTO;
 import com.example.smartroom.device_management.dto.connection_type.ConnectionTypeDTO;
@@ -14,9 +13,6 @@ import com.example.smartroom.device_management.entity.ConnectionType;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
 public interface ConnectionTypeMapper {
-
-    ConnectionTypeMapper INSTANCE = Mappers.getMapper(ConnectionTypeMapper.class);
-
     ConnectionTypeDTO toDTO(ConnectionType connectionType);
 
     @Mapping(target = "id", ignore = true)
@@ -25,5 +21,6 @@ public interface ConnectionTypeMapper {
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
     @Mapping(target = "version", ignore = true)
+    @Mapping(target = "devices", ignore = true)
     ConnectionType toEntity(ConnectionTypeCreateDTO createDTO);
 }

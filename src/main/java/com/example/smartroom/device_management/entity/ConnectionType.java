@@ -1,19 +1,26 @@
 package com.example.smartroom.device_management.entity;
 
-import com.example.smartroom.common.abstraction.AbstractAuditableEntity;
+import java.util.Set;
 
+import com.example.smartroom.common.abstraction.AbstractAuditableEntity;
+import com.example.smartroom.common.annotation.Searchable;
+import com.example.smartroom.common.annotation.Sortable;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import lombok.Setter;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.Setter;
 
 /**
  * Entity định nghĩa loại giao thức kết nối của thiết bị (ví dụ: Wi-Fi, Zigbee).
@@ -21,7 +28,7 @@ import lombok.AllArgsConstructor;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
 @Table(
     name = "connection_type",
@@ -38,17 +45,22 @@ public class ConnectionType extends AbstractAuditableEntity {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Sortable
     private Long id;
 
     /**
      * Mã loại kết nối (unique).
      */
+    @Sortable
+    @Searchable
     @Column(name = "code", nullable = false, unique = true)
     private String code;
 
     /**
      * Tên loại kết nối.
      */
+    @Sortable
+    @Searchable
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -58,16 +70,14 @@ public class ConnectionType extends AbstractAuditableEntity {
     @Column(name = "description")
     private String description;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ConnectionType that = (ConnectionType) o;
-        return id != null && id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
+    /**
+     * Tập hợp các thiết bị sử dụng loại kết nối này.
+     */
+    @OneToMany(
+        mappedBy = "connectionType",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true,
+        fetch = FetchType.LAZY
+    )
+    private Set<Device> devices;
 }

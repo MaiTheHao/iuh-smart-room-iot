@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.example.smartroom.common.abstraction.AbstractAuditableEntity;
+import com.example.smartroom.common.annotation.Searchable;
+import com.example.smartroom.common.annotation.Sortable;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,10 +14,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Setter;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.Setter;
 
 /**
  * Entity đại diện cho một phòng vật lý trong hệ thống Smart Room.
@@ -24,7 +26,7 @@ import lombok.AllArgsConstructor;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
 @Table(name = "room")
 public class Room extends AbstractAuditableEntity{
@@ -32,17 +34,23 @@ public class Room extends AbstractAuditableEntity{
 	 * Khóa chính của phòng.
 	 */
 	@Id
+	@Sortable
+	@Searchable
 	private String id;
 	
 	/**
 	 * Tên phòng (ví dụ: "Phòng khách").
 	 */
+	@Sortable
+	@Searchable
 	@Column(name = "name", nullable = false)
 	private String name;
 
 	/**
 	 * Vị trí của phòng (ví dụ: "Tầng 1, Nhà A").
 	 */
+	@Sortable
+	@Searchable
 	@Column(name = "location")
 	private String location;
 	
@@ -53,7 +61,7 @@ public class Room extends AbstractAuditableEntity{
 	private String description;
 	
 	/**
-	 * Danh sách các hub thuộc phòng này.
+	 * Danh sách các hub thuộc phòng này. Quan hệ OneToMany với Hub.
 	 */
 	@OneToMany(
 		mappedBy = "room",
@@ -62,19 +70,4 @@ public class Room extends AbstractAuditableEntity{
 		fetch = FetchType.LAZY
 	)
 	private Set<Hub> hubs = new HashSet<>();
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		Room room = (Room) o;
-		
-		return id != null && id.equals(room.id);
-	}
-
-	@Override
-	public int hashCode() {
-		return id != null ? id.hashCode() : 0;
-	}
 }
