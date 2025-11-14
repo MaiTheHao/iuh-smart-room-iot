@@ -1,0 +1,61 @@
+### ==========================================
+### BIẾN MÔI TRƯỜNG (VARIABLES)
+### ==========================================
+@host = http://localhost:8080
+@apiPrefix = /api/v1
+@languagesEp = {{host}}{{apiPrefix}}/languages
+
+# Biến dùng chung
+@languageId = 1
+@languageCode = vi
+
+### ==========================================
+### LANGUAGE - CREATE/UPDATE/READ/DELETE
+### ==========================================
+
+### Tạo language mới
+# @name createLanguage
+POST {{languagesEp}}
+Content-Type: application/json
+
+{
+    "code": "{{languageCode}}",
+    "name": "Tiếng Việt"
+}
+
+###
+
+### Lấy tất cả languages
+# @name getAllLanguages
+GET {{languagesEp}}
+
+###
+
+### Lấy language theo ID
+# @name getLanguageById
+GET {{languagesEp}}/{{languageId}}
+
+###
+
+### Lấy language theo code
+# @name getLanguageByCode
+GET {{languagesEp}}/code/{{languageCode}}
+
+###
+
+### Update language
+# @name updateLanguage
+PUT {{languagesEp}}/{{languageId}}
+Content-Type: application/json
+
+{
+    "name": "Tiếng Việt (Updated)"
+}
+
+###
+
+### Xóa language
+# @name deleteLanguage
+DELETE {{languagesEp}}/{{languageId}}
+
+###

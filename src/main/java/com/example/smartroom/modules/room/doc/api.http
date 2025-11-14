@@ -1,0 +1,143 @@
+### ==========================================
+### BIẾN MÔI TRƯỜNG (VARIABLES)
+### ==========================================
+@host = http://localhost:8080
+@apiPrefix = /api/v1
+@roomsEp = {{host}}{{apiPrefix}}/rooms
+@translationsEp = {{host}}{{apiPrefix}}/translations
+
+# Biến dùng chung
+@roomId = 1
+@floorId = 1
+@langCode = vi
+
+### ==========================================
+### 1. ROOM - CREATE/UPDATE/READ/DELETE
+### ==========================================
+
+### Tạo room mới (floorId only)
+# @name createRoom
+POST {{roomsEp}}
+Content-Type: application/json
+
+{
+    "floorId": {{floorId}}
+}
+
+###
+
+### Lấy danh sách rooms (pagination)
+# @name getAllRooms
+GET {{roomsEp}}?page=0&size=10
+
+###
+
+### Lấy danh sách rooms với language filter
+# @name getAllRoomsWithLang
+GET {{roomsEp}}?page=0&size=10&lang={{langCode}}
+
+###
+
+### Lấy room theo ID
+# @name getRoomById
+GET {{roomsEp}}/{{roomId}}
+
+###
+
+### Lấy room theo ID với language filter
+# @name getRoomByIdWithLang
+GET {{roomsEp}}/{{roomId}}?lang={{langCode}}
+
+###
+
+### Update room (chỉ update floorId)
+# @name updateRoom
+PUT {{roomsEp}}/{{roomId}}
+Content-Type: application/json
+
+{
+    "floorId": 2
+}
+
+###
+
+### Update room với language filter
+# @name updateRoomWithLang
+PUT {{roomsEp}}/{{roomId}}?lang={{langCode}}
+Content-Type: application/json
+
+{
+    "floorId": 3
+}
+
+###
+
+### Xóa room (cascade delete translations)
+# @name deleteRoom
+DELETE {{roomsEp}}/{{roomId}}
+
+###
+
+### ==========================================
+### 2. ROOM TRANSLATIONS
+### ==========================================
+
+### Tạo hoặc cập nhật translation cho room (Vietnamese)
+# @name upsertRoomTranslation
+PUT {{translationsEp}}/room/{{roomId}}/lang/{{langCode}}
+Content-Type: application/json
+
+{
+    "name": "Phòng 101",
+    "description": "Mô tả phòng 101",
+    "locationDescription": "Phòng bên trái hành lang"
+}
+
+###
+
+### Tạo hoặc cập nhật translation cho room (English)
+# @name upsertRoomTranslationEn
+PUT {{translationsEp}}/room/{{roomId}}/lang/en
+Content-Type: application/json
+
+{
+    "name": "Room 101",
+    "description": "Room 101 description",
+    "locationDescription": "Room on the left side of the hallway"
+}
+
+###
+
+### Lấy tất cả translations của room
+# @name getRoomTranslations
+GET {{translationsEp}}/room/{{roomId}}
+
+###
+
+### Lấy translation của room theo language code
+# @name getRoomTranslationByLang
+GET {{translationsEp}}/room/{{roomId}}/lang/{{langCode}}
+
+###
+
+### Xóa translation của room
+# @name deleteRoomTranslation
+DELETE {{translationsEp}}/room/{{roomId}}/lang/{{langCode}}
+
+###
+
+### ==========================================
+### 3. ROOM - CHILD RESOURCES (DEVICES)
+### ==========================================
+
+### Lấy danh sách devices của room (pagination)
+# @name getDevicesByRoomId
+GET {{roomsEp}}/{{roomId}}/devices?page=0&size=10
+
+###
+
+### Lấy danh sách devices của room với language filter
+# @name getDevicesByRoomIdWithLang
+GET {{roomsEp}}/{{roomId}}/devices?page=0&size=10&lang={{langCode}}
+
+###

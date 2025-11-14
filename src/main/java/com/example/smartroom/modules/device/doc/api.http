@@ -1,0 +1,205 @@
+### ==========================================
+### BIẾN MÔI TRƯỜNG (VARIABLES)
+### ==========================================
+@host = http://localhost:8080
+@apiPrefix = /api/v1
+@devicesEp = {{host}}{{apiPrefix}}/devices
+@translationsEp = {{host}}{{apiPrefix}}/translations
+
+# Biến dùng chung
+@deviceId = 1
+@roomId = 1
+@gatewayId = 2
+@deviceMac = 00:1A:2B:3C:4D:5E
+@gatewayMac = 11:22:33:44:55:66
+@langCode = vi
+
+### ==========================================
+### 1. DEVICE - CREATE/UPDATE/READ/DELETE
+### ==========================================
+
+### Tạo device mới (Direct WiFi)
+# @name createDevice
+POST {{devicesEp}}
+Content-Type: application/json
+
+{
+    "isGateway": false,
+    "model": "ESP32-S3",
+    "mac": "{{deviceMac}}",
+    "ip": "192.168.1.100",
+    "connectionProtocol": "WiFi",
+    "roomId": {{roomId}},
+    "gatewayId": null
+}
+
+###
+
+### Tạo gateway device (Ethernet)
+# @name createGatewayDevice
+POST {{devicesEp}}
+Content-Type: application/json
+
+{
+    "isGateway": true,
+    "model": "Raspberry Pi 4",
+    "mac": "{{gatewayMac}}",
+    "ip": "192.168.1.1",
+    "connectionProtocol": "Ethernet",
+    "roomId": {{roomId}},
+    "gatewayId": null
+}
+
+###
+
+### Tạo device kết nối qua gateway (Zigbee)
+# @name createDeviceViaGateway
+POST {{devicesEp}}
+Content-Type: application/json
+
+{
+    "isGateway": false,
+    "model": "Arduino Nano",
+    "mac": "AA:11:BB:22:CC:33",
+    "ip": null,
+    "connectionProtocol": "Zigbee",
+    "roomId": {{roomId}},
+    "gatewayId": {{gatewayId}}
+}
+
+###
+
+### Lấy danh sách devices (pagination)
+# @name getAllDevices
+GET {{devicesEp}}?page=0&size=10
+
+###
+
+### Lấy danh sách devices với language filter
+# @name getAllDevicesWithLang
+GET {{devicesEp}}?page=0&size=10&lang={{langCode}}
+
+###
+
+### Lấy device theo ID
+# @name getDeviceById
+GET {{devicesEp}}/{{deviceId}}
+
+###
+
+### Lấy device theo ID với language filter
+# @name getDeviceByIdWithLang
+GET {{devicesEp}}/{{deviceId}}?lang={{langCode}}
+
+###
+
+### Lấy tất cả gateway devices (pagination)
+# @name getAllGateways
+GET {{devicesEp}}/gateways?page=0&size=10
+
+###
+
+### Lấy tất cả gateway devices với language filter
+# @name getAllGatewaysWithLang
+GET {{devicesEp}}/gateways?page=0&size=10&lang={{langCode}}
+
+###
+
+### Lấy devices kết nối qua gateway (pagination)
+# @name getConnectedDevices
+GET {{devicesEp}}/gateways/{{gatewayId}}/connected-devices?page=0&size=10
+
+###
+
+### Lấy devices kết nối qua gateway với language filter
+# @name getConnectedDevicesWithLang
+GET {{devicesEp}}/gateways/{{gatewayId}}/connected-devices?page=0&size=10&lang={{langCode}}
+
+###
+
+### Update device
+# @name updateDevice
+PUT {{devicesEp}}/{{deviceId}}
+Content-Type: application/json
+
+{
+    "isGateway": false,
+    "model": "ESP32-S3-WROOM",
+    "mac": "{{deviceMac}}",
+    "ip": "192.168.1.101",
+    "connectionProtocol": "WiFi",
+    "roomId": 2,
+    "gatewayId": null
+}
+
+###
+
+### Update device với language filter
+# @name updateDeviceWithLang
+PUT {{devicesEp}}/{{deviceId}}?lang={{langCode}}
+Content-Type: application/json
+
+{
+    "isGateway": false,
+    "model": "ESP32-S3-WROOM",
+    "mac": "{{deviceMac}}",
+    "ip": "192.168.1.102",
+    "connectionProtocol": "WiFi",
+    "roomId": 3
+}
+
+###
+
+### Xóa device (cascade delete translations)
+# @name deleteDevice
+DELETE {{devicesEp}}/{{deviceId}}
+
+###
+
+### ==========================================
+### 2. DEVICE TRANSLATIONS
+### ==========================================
+
+### Tạo hoặc cập nhật translation cho device (Vietnamese)
+# @name upsertDeviceTranslation
+PUT {{translationsEp}}/device/{{deviceId}}/lang/{{langCode}}
+Content-Type: application/json
+
+{
+    "name": "Thiết bị điều khiển phòng 101",
+    "description": "Thiết bị điều khiển trung tâm sử dụng ESP32 - Cấu hình WiFi",
+    "locationDescription": "Gắn trên tường bên trái cửa ra vào"
+}
+
+###
+
+### Tạo hoặc cập nhật translation cho device (English)
+# @name upsertDeviceTranslationEn
+PUT {{translationsEp}}/device/{{deviceId}}/lang/en
+Content-Type: application/json
+
+{
+    "name": "Room 101 Control Device",
+    "description": "Central control device using ESP32 - WiFi configuration",
+    "locationDescription": "Mounted on the left wall near the entrance"
+}
+
+###
+
+### Lấy tất cả translations của device
+# @name getDeviceTranslations
+GET {{translationsEp}}/device/{{deviceId}}
+
+###
+
+### Lấy translation của device theo language code
+# @name getDeviceTranslationByLang
+GET {{translationsEp}}/device/{{deviceId}}/lang/{{langCode}}
+
+###
+
+### Xóa translation của device
+# @name deleteDeviceTranslation
+DELETE {{translationsEp}}/device/{{deviceId}}/lang/{{langCode}}
+
+###

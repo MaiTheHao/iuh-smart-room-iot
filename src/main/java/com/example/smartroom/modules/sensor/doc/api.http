@@ -1,0 +1,157 @@
+### ==========================================
+### BIẾN MÔI TRƯỜNG (VARIABLES)
+### ==========================================
+@host = http://localhost:8080
+@apiPrefix = /api/v1
+@sensorsEp = {{host}}{{apiPrefix}}/sensors
+@translationsEp = {{host}}{{apiPrefix}}/translations
+
+# Biến dùng chung
+@sensorId = 1
+@deviceId = 1
+@sensorTypeId = 1
+@langCode = vi
+
+### ==========================================
+### 1. SENSOR - CREATE/READ/UPDATE/DELETE
+### ==========================================
+
+### Tạo sensor mới
+# @name createSensor
+POST {{sensorsEp}}
+Content-Type: application/json
+
+{
+    "model": "DHT22",
+    "connectionProtocol": "I2C",
+    "deviceId": {{deviceId}},
+    "sensorTypeId": {{sensorTypeId}}
+}
+
+###
+
+### Lấy danh sách sensors (pagination)
+# @name getAllSensors
+GET {{sensorsEp}}?page=0&size=10
+
+###
+
+### Lấy danh sách sensors với language filter
+# @name getAllSensorsWithLang
+GET {{sensorsEp}}?page=0&size=10&lang={{langCode}}
+
+###
+
+### Lấy sensor theo ID
+# @name getSensorById
+GET {{sensorsEp}}/{{sensorId}}
+
+###
+
+### Lấy sensor theo ID với language filter
+# @name getSensorByIdWithLang
+GET {{sensorsEp}}/{{sensorId}}?lang={{langCode}}
+
+###
+
+### Lấy sensors theo device ID
+# @name getSensorsByDeviceId
+GET {{sensorsEp}}/device/{{deviceId}}?page=0&size=10
+
+###
+
+### Lấy sensors theo device ID với language filter
+# @name getSensorsByDeviceIdWithLang
+GET {{sensorsEp}}/device/{{deviceId}}?page=0&size=10&lang={{langCode}}
+
+###
+
+### Lấy sensors theo sensor type ID
+# @name getSensorsBySensorTypeId
+GET {{sensorsEp}}/sensor-type/{{sensorTypeId}}?page=0&size=10
+
+###
+
+### Lấy sensors theo sensor type ID với language filter
+# @name getSensorsBySensorTypeIdWithLang
+GET {{sensorsEp}}/sensor-type/{{sensorTypeId}}?page=0&size=10&lang={{langCode}}
+
+###
+
+### Update sensor
+# @name updateSensor
+PUT {{sensorsEp}}/{{sensorId}}
+Content-Type: application/json
+
+{
+    "model": "DHT22-V2",
+    "connectionProtocol": "MQTT"
+}
+
+###
+
+### Update sensor với language filter
+# @name updateSensorWithLang
+PUT {{sensorsEp}}/{{sensorId}}?lang={{langCode}}
+Content-Type: application/json
+
+{
+    "model": "DHT22-V2",
+    "connectionProtocol": "MQTT"
+}
+
+###
+
+### Xóa sensor
+# @name deleteSensor
+DELETE {{sensorsEp}}/{{sensorId}}
+
+###
+
+### ==========================================
+### 2. SENSOR TRANSLATIONS
+### ==========================================
+
+### Tạo hoặc cập nhật translation cho sensor (Vietnamese)
+# @name upsertSensorTranslation
+PUT {{translationsEp}}/sensor/{{sensorId}}/lang/{{langCode}}
+Content-Type: application/json
+
+{
+    "name": "Cảm biến nhiệt độ",
+    "description": "Cảm biến đo nhiệt độ và độ ẩm",
+    "locationDescription": "Góc phòng"
+}
+
+###
+
+### Tạo hoặc cập nhật translation cho sensor (English)
+# @name upsertSensorTranslationEn
+PUT {{translationsEp}}/sensor/{{sensorId}}/lang/en
+Content-Type: application/json
+
+{
+    "name": "Temperature Sensor",
+    "description": "Measures temperature and humidity",
+    "locationDescription": "Corner of room"
+}
+
+###
+
+### Lấy tất cả translations của sensor
+# @name getSensorTranslations
+GET {{translationsEp}}/sensor/{{sensorId}}
+
+###
+
+### Lấy translation của sensor theo language code
+# @name getSensorTranslationByLang
+GET {{translationsEp}}/sensor/{{sensorId}}/lang/{{langCode}}
+
+###
+
+### Xóa translation của sensor
+# @name deleteSensorTranslation
+DELETE {{translationsEp}}/sensor/{{sensorId}}/lang/{{langCode}}
+
+###

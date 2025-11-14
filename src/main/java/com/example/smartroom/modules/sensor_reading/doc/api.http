@@ -1,0 +1,196 @@
+### ==========================================
+### BIẾN MÔI TRƯỜNG (VARIABLES)
+### ==========================================
+@host = http://localhost:8080
+@apiPrefix = /api/v1
+@sensorReadingsEp = {{host}}{{apiPrefix}}/sensor-readings
+
+# Biến dùng chung
+@sensorId = 2
+@readingId = 1
+
+# Biến cho truy vấn thời gian
+@startTime = 2024-01-15T00:00:00Z
+@endTime = 2024-01-15T23:59:59Z
+
+# Biến cho xác thực (Admin)
+@authToken = Bearer YOUR_ADMIN_TOKEN_HERE
+
+### ==========================================
+### 1. SENSOR_READING - DATA INGESTION APIs
+### ==========================================
+
+### Tạo 1 sensor reading (Client timestamp)
+# @name createSingleReading
+POST {{sensorReadingsEp}}
+Content-Type: application/json
+
+{
+    "sensorId": {{sensorId}},
+    "tempC": 25.5,
+    "volt": 220.0,
+    "ampe": 1.5,
+    "watt": 330.0,
+    "wattHour": 165.0,
+    "hz": 50.0,
+    "powerFactor": 0.95,
+    "timestamp": "2024-01-15T10:30:00Z"
+}
+
+###
+
+### Tạo nhiều sensor readings (Batch Upload)
+# @name createBatchReadings
+POST {{sensorReadingsEp}}/batch
+Content-Type: application/json
+
+{
+    "readings": [
+        {
+            "sensorId": {{sensorId}},
+            "tempC": 25.5,
+            "volt": 220.0,
+            "ampe": 1.5,
+            "watt": 330.0,
+            "wattHour": 165.0,
+            "hz": 50.0,
+            "powerFactor": 0.95,
+            "timestamp": "2024-01-15T10:30:00Z"
+        },
+        {
+            "sensorId": {{sensorId}},
+            "tempC": 26.0,
+            "volt": 221.0,
+            "ampe": 1.6,
+            "watt": 335.0,
+            "wattHour": 167.5,
+            "hz": 50.1,
+            "powerFactor": 0.94,
+            "timestamp": "2024-01-15T10:31:00Z"
+        },
+        {
+            "sensorId": {{sensorId}},
+            "tempC": 24.8,
+            "volt": 219.5,
+            "ampe": 1.4,
+            "watt": 325.0,
+            "wattHour": 162.5,
+            "hz": 49.9,
+            "powerFactor": 0.96,
+            "timestamp": "2024-01-15T10:30:00Z"
+        }
+    ]
+}
+
+###
+
+### Tạo 1 sensor reading (Server auto-timestamp)
+# @name createAutoTimestampReading
+POST {{sensorReadingsEp}}/auto-timestamp
+Content-Type: application/json
+
+{
+    "sensorId": {{sensorId}},
+    "tempC": 25.5,
+    "volt": 220.0,
+    "ampe": 1.5,
+    "watt": 330.0,
+    "wattHour": 165.0,
+    "hz": 50.0,
+    "powerFactor": 0.95
+}
+
+###
+
+### ==========================================
+### 2. SENSOR_READING - QUERY APIs
+### ==========================================
+
+### Lấy danh sách sensor readings (pagination)
+# @name getAllReadings
+GET {{sensorReadingsEp}}?page=0&size=20
+
+###
+
+### Lấy sensor reading theo ID
+# @name getReadingById
+GET {{sensorReadingsEp}}/{{readingId}}
+
+###
+
+### Lấy readings theo sensor ID (không filter thời gian)
+# @name getReadingsBySensor
+GET {{sensorReadingsEp}}/sensor/{{sensorId}}?page=0&size=50
+
+###
+
+### Lấy readings theo sensor ID và khoảng thời gian (với optional time filter)
+# @name getReadingsBySensorTime
+GET {{sensorReadingsEp}}/sensor/{{sensorId}}?startTime={{startTime}}&endTime={{endTime}}&page=0&size=100
+
+# ✅ FIXED: Đã merge endpoint /time-range vào endpoint chính
+# Bây giờ có thể dùng optional query params: ?startTime=...&endTime=...
+# Nếu không truyền startTime/endTime sẽ lấy tất cả readings
+###
+
+### Lấy N readings mới nhất theo sensor ID
+# @name getLatestReadings
+GET {{sensorReadingsEp}}/sensor/{{sensorId}}/latest?limit=10
+
+###
+
+### Lấy thống kê theo sensor ID và khoảng thời gian
+# @name getStatistics
+GET {{sensorReadingsEp}}/sensor/{{sensorId}}/statistics?startTime={{startTime}}&endTime={{endTime}}
+
+# ✅ FIXED: Đã chuyển query từ JPQL sang Native SQL
+# Repository bây giờ trả về Object[] trực tiếp thay vì Optional<Object[]>
+# Service xử lý null check đúng cách, không còn ClassCastException
+###
+
+### Lấy readings theo nhiều sensor IDs và thời gian
+# @name getReadingsByMultipleSensors
+POST {{sensorReadingsEp}}/by-sensors
+Content-Type: application/json
+
+{
+    "sensorIds": [1, 2, 3],
+    "startTime": "{{startTime}}",
+    "endTime": "{{endTime}}",
+    "page": 0,
+    "size": 100
+}
+
+###
+
+### ==========================================
+### 3. SENSOR_READING - DELETE APIs (Admin)
+### ==========================================
+
+### Xóa sensor reading theo ID
+# @name deleteReadingById
+DELETE {{sensorReadingsEp}}/{{readingId}}
+Authorization: {{authToken}}
+
+###
+
+### Xóa readings theo sensor ID với optional time range
+# @name deleteReadingsByTime
+DELETE {{sensorReadingsEp}}/sensor/{{sensorId}}?startTime=2024-01-01T00:00:00Z&endTime=2024-01-14T23:59:59Z
+Authorization: {{authToken}}
+
+# ✅ FIXED: Đã merge endpoint /time-range vào endpoint chính
+# Có thể dùng optional query params: ?startTime=...&endTime=...
+# CẢNH BÁO: Nếu không truyền time params sẽ XÓA TẤT CẢ readings của sensor!
+
+###
+
+### Xóa TẤT CẢ readings của một sensor (NGUY HIỂM!)
+# @name deleteAllReadingsBySensor
+# DELETE {{sensorReadingsEp}}/sensor/{{sensorId}}
+# Authorization: {{authToken}}
+
+# CẢNH BÁO: Endpoint này sẽ xóa TẤT CẢ dữ liệu của sensor
+# Chỉ sử dụng khi thực sự cần thiết!
+
+###

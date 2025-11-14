@@ -1,0 +1,185 @@
+### Sensor Module - API Testing
+### Base URL: http://localhost:8080
+
+@baseUrl = http://localhost:8080
+@contentType = application/json
+@sensorId = 1
+@deviceId = 1
+@sensorTypeId = 1
+@langCode = vi
+
+### ============================================
+### SECTION 1: SENSOR CRUD OPERATIONS
+### ============================================
+
+### 1.1 Create a new sensor
+# @name createSensor
+POST {{baseUrl}}/api/v1/sensors
+Content-Type: {{contentType}}
+
+{
+  "model": "DHT22",
+  "connectionProtocol": "MQTT",
+  "deviceId": {{deviceId}},
+  "sensorTypeId": {{sensorTypeId}}
+}
+
+### 1.2 Get all sensors with pagination
+# @name listSensors
+GET {{baseUrl}}/api/v1/sensors?page=0&size=10
+
+### 1.3 Get all sensors with language filter
+# @name listSensorsWithLang
+GET {{baseUrl}}/api/v1/sensors?page=0&size=10&langCode={{langCode}}
+
+### 1.4 Get sensor by ID
+# @name getSensorById
+GET {{baseUrl}}/api/v1/sensors/{{sensorId}}
+
+### 1.5 Get sensor by ID with language
+# @name getSensorByIdWithLang
+GET {{baseUrl}}/api/v1/sensors/{{sensorId}}?langCode={{langCode}}
+
+### 1.6 Get sensors by device ID
+# @name listSensorsByDeviceId
+GET {{baseUrl}}/api/v1/sensors/device/{{deviceId}}?page=0&size=10
+
+### 1.7 Get sensors by device ID with language filter
+# @name listSensorsByDeviceIdWithLang
+GET {{baseUrl}}/api/v1/sensors/device/{{deviceId}}?page=0&size=10&langCode={{langCode}}
+
+### 1.8 Get sensors by sensor type ID
+# @name listSensorsBySensorTypeId
+GET {{baseUrl}}/api/v1/sensors/sensor-type/{{sensorTypeId}}?page=0&size=10
+
+### 1.9 Get sensors by sensor type ID with language filter
+# @name listSensorsBySensorTypeIdWithLang
+GET {{baseUrl}}/api/v1/sensors/sensor-type/{{sensorTypeId}}?page=0&size=10&langCode={{langCode}}
+
+### 1.10 Update sensor
+# @name updateSensor
+PUT {{baseUrl}}/api/v1/sensors/{{sensorId}}
+Content-Type: {{contentType}}
+
+{
+  "model": "DHT22 Updated",
+  "connectionProtocol": "WiFi"
+}
+
+### 1.11 Update sensor with language filter
+# @name updateSensorWithLang
+PUT {{baseUrl}}/api/v1/sensors/{{sensorId}}?langCode={{langCode}}
+Content-Type: {{contentType}}
+
+{
+  "model": "DHT22 Updated",
+  "connectionProtocol": "WiFi"
+}
+
+### 1.12 Delete sensor
+# @name deleteSensor
+DELETE {{baseUrl}}/api/v1/sensors/{{sensorId}}
+
+### ============================================
+### SECTION 2: SENSOR TRANSLATION MANAGEMENT
+### ============================================
+
+### 2.1 Get all translations for a sensor
+# @name getAllTranslations
+GET {{baseUrl}}/api/v1/translations/sensor/{{sensorId}}
+
+### 2.2 Get specific language translation
+# @name getTranslationByLanguage
+GET {{baseUrl}}/api/v1/translations/sensor/{{sensorId}}/lang/{{langCode}}
+
+### 2.3 Create or update translation (Upsert)
+# @name upsertTranslation
+PUT {{baseUrl}}/api/v1/translations/sensor/{{sensorId}}/lang/{{langCode}}
+Content-Type: {{contentType}}
+
+{
+  "name": "Cảm biến nhiệt độ DHT22",
+  "description": "Cảm biến đo nhiệt độ và độ ẩm chính xác cao",
+  "locationDescription": "Phòng khách - Góc trái"
+}
+
+### 2.4 Create translation in English
+# @name upsertTranslationEn
+PUT {{baseUrl}}/api/v1/translations/sensor/{{sensorId}}/lang/en
+Content-Type: {{contentType}}
+
+{
+  "name": "DHT22 Temperature Sensor",
+  "description": "High precision temperature and humidity sensor",
+  "locationDescription": "Living Room - Left Corner"
+}
+
+### 2.5 Delete translation
+# @name deleteTranslation
+DELETE {{baseUrl}}/api/v1/translations/sensor/{{sensorId}}/lang/{{langCode}}
+
+### 2.6 Delete English translation
+# @name deleteTranslationEn
+DELETE {{baseUrl}}/api/v1/translations/sensor/{{sensorId}}/lang/en
+
+### ============================================
+### SECTION 3: ERROR HANDLING TESTS
+### ============================================
+
+### 3.1 Get non-existent sensor (404)
+# @name getNotFoundSensor
+GET {{baseUrl}}/api/v1/sensors/99999
+
+### 3.2 Create sensor with non-existent device (404)
+# @name createSensorInvalidDevice
+POST {{baseUrl}}/api/v1/sensors
+Content-Type: {{contentType}}
+
+{
+  "model": "DHT22",
+  "connectionProtocol": "MQTT",
+  "deviceId": 99999,
+  "sensorTypeId": {{sensorTypeId}}
+}
+
+### 3.3 Create sensor with non-existent sensor type (404)
+# @name createSensorInvalidType
+POST {{baseUrl}}/api/v1/sensors
+Content-Type: {{contentType}}
+
+{
+  "model": "DHT22",
+  "connectionProtocol": "MQTT",
+  "deviceId": {{deviceId}},
+  "sensorTypeId": 99999
+}
+
+### 3.4 Create sensor with missing required fields (400)
+# @name createSensorMissingFields
+POST {{baseUrl}}/api/v1/sensors
+Content-Type: {{contentType}}
+
+{
+  "model": "DHT22"
+}
+
+### 3.5 Update non-existent sensor (404)
+# @name updateNotFoundSensor
+PUT {{baseUrl}}/api/v1/sensors/99999
+Content-Type: {{contentType}}
+
+{
+  "model": "DHT22 Updated"
+}
+
+### 3.6 Delete non-existent sensor (404)
+# @name deleteNotFoundSensor
+DELETE {{baseUrl}}/api/v1/sensors/99999
+
+### 3.7 Get translation with non-existent sensor (404)
+# @name getTranslationNotFoundSensor
+GET {{baseUrl}}/api/v1/translations/sensor/99999
+
+### 3.8 Get translation with non-existent language (404)
+# @name getTranslationNotFoundLanguage
+GET {{baseUrl}}/api/v1/translations/sensor/{{sensorId}}/lang/xx

@@ -1,0 +1,137 @@
+### ==========================================
+### BIẾN MÔI TRƯỜNG (VARIABLES)
+### ==========================================
+@host = http://localhost:8080
+@apiPrefix = /api/v1
+@sensorTypesEp = {{host}}{{apiPrefix}}/sensor-types
+@translationsEp = {{host}}{{apiPrefix}}/translations
+
+# Biến dùng chung
+@sensorTypeId = 1
+@sensorTypeCode = TEMPERATURE
+@langCode = vi
+
+### ==========================================
+### 1. SENSOR_TYPE - CREATE/UPDATE/READ/DELETE
+### ==========================================
+
+### Tạo sensor type mới (code only)
+# @name createSensorType
+POST {{sensorTypesEp}}
+Content-Type: application/json
+
+{
+    "code": "{{sensorTypeCode}}"
+}
+
+###
+
+### Lấy danh sách sensor types (pagination)
+# @name getAllSensorTypes
+GET {{sensorTypesEp}}?page=0&size=10
+
+###
+
+### Lấy danh sách sensor types với language filter
+# @name getAllSensorTypesWithLang
+GET {{sensorTypesEp}}?page=0&size=10&lang={{langCode}}
+
+###
+
+### Lấy sensor type theo ID
+# @name getSensorTypeById
+GET {{sensorTypesEp}}/{{sensorTypeId}}
+
+###
+
+### Lấy sensor type theo ID với language filter
+# @name getSensorTypeByIdWithLang
+GET {{sensorTypesEp}}/{{sensorTypeId}}?lang={{langCode}}
+
+###
+
+### Lấy sensor type theo code
+# @name getSensorTypeByCode
+GET {{sensorTypesEp}}/code/{{sensorTypeCode}}
+
+###
+
+### Lấy sensor type theo code với language filter
+# @name getSensorTypeByCodeWithLang
+GET {{sensorTypesEp}}/code/{{sensorTypeCode}}?lang={{langCode}}
+
+###
+
+### Update sensor type (chỉ update code)
+# @name updateSensorType
+PUT {{sensorTypesEp}}/{{sensorTypeId}}
+Content-Type: application/json
+
+{
+    "code": "HUMIDITY"
+}
+
+###
+
+### Update sensor type với language filter
+# @name updateSensorTypeWithLang
+PUT {{sensorTypesEp}}/{{sensorTypeId}}?lang={{langCode}}
+Content-Type: application/json
+
+{
+    "code": "PRESSURE"
+}
+
+###
+
+### Xóa sensor type (cascade delete translations)
+# @name deleteSensorType
+DELETE {{sensorTypesEp}}/{{sensorTypeId}}
+
+###
+
+### ==========================================
+### 2. SENSOR_TYPE TRANSLATIONS
+### ==========================================
+
+### Tạo hoặc cập nhật translation cho sensor type (Vietnamese)
+# @name upsertSensorTypeTranslation
+PUT {{translationsEp}}/sensor-type/{{sensorTypeId}}/lang/{{langCode}}
+Content-Type: application/json
+
+{
+    "name": "Cảm biến nhiệt độ",
+    "description": "Cảm biến đo nhiệt độ môi trường"
+}
+
+###
+
+### Tạo hoặc cập nhật translation cho sensor type (English)
+# @name upsertSensorTypeTranslationEn
+PUT {{translationsEp}}/sensor-type/{{sensorTypeId}}/lang/en
+Content-Type: application/json
+
+{
+    "name": "Temperature Sensor",
+    "description": "Sensor that measures environmental temperature"
+}
+
+###
+
+### Lấy tất cả translations của sensor type
+# @name getSensorTypeTranslations
+GET {{translationsEp}}/sensor-type/{{sensorTypeId}}
+
+###
+
+### Lấy translation của sensor type theo language code
+# @name getSensorTypeTranslationByLang
+GET {{translationsEp}}/sensor-type/{{sensorTypeId}}/lang/{{langCode}}
+
+###
+
+### Xóa translation của sensor type
+# @name deleteSensorTypeTranslation
+DELETE {{translationsEp}}/sensor-type/{{sensorTypeId}}/lang/{{langCode}}
+
+###

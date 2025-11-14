@@ -1,0 +1,142 @@
+### ==========================================
+### BIẾN MÔI TRƯỜNG (VARIABLES)
+### ==========================================
+@host = http://localhost:8080
+@apiPrefix = /api/v1
+@floorsEp = {{host}}{{apiPrefix}}/floors
+@translationsEp = {{host}}{{apiPrefix}}/translations
+
+# Biến dùng chung
+@floorId = 1
+@langCode = vi
+
+### ==========================================
+### 1. FLOOR - CREATE/UPDATE/READ/DELETE
+### ==========================================
+
+### Tạo floor mới (level only)
+# @name createFloor
+POST {{floorsEp}}
+Content-Type: application/json
+
+{
+    "level": 1
+}
+
+###
+
+### Lấy danh sách floors (pagination)
+# @name getAllFloors
+GET {{floorsEp}}?page=0&size=10
+
+###
+
+### Lấy danh sách floors với language filter
+# @name getAllFloorsWithLang
+GET {{floorsEp}}?page=0&size=10&lang={{langCode}}
+
+###
+
+### Lấy floor theo ID
+# @name getFloorById
+GET {{floorsEp}}/{{floorId}}
+
+###
+
+### Lấy floor theo ID với language filter
+# @name getFloorByIdWithLang
+GET {{floorsEp}}/{{floorId}}?lang={{langCode}}
+
+###
+
+### Update floor (chỉ update level)
+# @name updateFloor
+PUT {{floorsEp}}/{{floorId}}
+Content-Type: application/json
+
+{
+    "level": 2
+}
+
+###
+
+### Update floor với language filter
+# @name updateFloorWithLang
+PUT {{floorsEp}}/{{floorId}}?lang={{langCode}}
+Content-Type: application/json
+
+{
+    "level": 3
+}
+
+###
+
+### Xóa floor (cascade delete translations)
+# @name deleteFloor
+DELETE {{floorsEp}}/{{floorId}}
+
+###
+
+### ==========================================
+### 2. FLOOR TRANSLATIONS
+### ==========================================
+
+### Tạo hoặc cập nhật translation cho floor (Vietnamese)
+# @name upsertFloorTranslation
+PUT {{translationsEp}}/floor/{{floorId}}/lang/{{langCode}}
+Content-Type: application/json
+
+{
+    "name": "Tầng 1",
+    "description": "Mô tả tầng 1",
+    "locationDescription": "Tầng dưới cùng"
+}
+
+###
+
+### Tạo hoặc cập nhật translation cho floor (English)
+# @name upsertFloorTranslationEn
+PUT {{translationsEp}}/floor/{{floorId}}/lang/en
+Content-Type: application/json
+
+{
+    "name": "Floor 1",
+    "description": "Ground floor description",
+    "locationDescription": "The lowest floor"
+}
+
+###
+
+### Lấy tất cả translations của floor
+# @name getFloorTranslations
+GET {{translationsEp}}/floor/{{floorId}}
+
+###
+
+### Lấy translation của floor theo language code
+# @name getFloorTranslationByLang
+GET {{translationsEp}}/floor/{{floorId}}/lang/{{langCode}}
+
+###
+
+### Xóa translation của floor
+# @name deleteFloorTranslation
+DELETE {{translationsEp}}/floor/{{floorId}}/lang/{{langCode}}
+
+###
+
+### ==========================================
+### 3. FLOOR - CHILD RESOURCES (ROOMS)
+### ==========================================
+
+### Lấy danh sách rooms của floor (pagination)
+# @name getRoomsByFloorId
+GET {{floorsEp}}/{{floorId}}/rooms?page=0&size=10
+
+###
+
+### Lấy danh sách rooms của floor với language filter
+# @name getRoomsByFloorIdWithLang
+GET {{floorsEp}}/{{floorId}}/rooms?page=0&size=10&lang={{langCode}}
+
+###
