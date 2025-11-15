@@ -1,43 +1,88 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/main}">
-<head>
-<title>Không Tìm Thấy Trang</title>
-</head>
-<body>
-	<section class="content-header" layout:fragment="content-header">
-		<div class="container-fluid">
-			<div class="row mb-2">
-				<div class="col-sm-6">
-					<h1 class="text-warning">
-						<i class="fas fa-exclamation-triangle"></i> 404 - Không tìm thấy
-						trang
-					</h1>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/main}">
+	<head>
+		<title>Không Tìm Thấy Trang</title>
+		<th:block layout:fragment="extra-css">
+			<style>
+				.error-container {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					min-height: 500px;
+				}
+
+				.error-card {
+					background-color: #fff;
+					border: 1px solid #dee2e6;
+					border-radius: 4px;
+					padding: 40px 30px;
+					text-align: center;
+					max-width: 500px;
+				}
+
+				.error-code {
+					font-size: 80px;
+					font-weight: bold;
+					color: #999;
+					line-height: 1;
+					margin-bottom: 20px;
+				}
+
+				.error-title {
+					font-size: 22px;
+					color: #333;
+					margin-bottom: 15px;
+					font-weight: 500;
+				}
+
+				.error-message {
+					font-size: 14px;
+					color: #666;
+					margin-bottom: 30px;
+					line-height: 1.6;
+				}
+
+				.error-icon {
+					font-size: 48px;
+					color: #ccc;
+					margin-bottom: 20px;
+				}
+
+				.error-btn {
+					background-color: #333;
+					color: white;
+					border: none;
+					padding: 10px 20px;
+					border-radius: 4px;
+					text-decoration: none;
+					display: inline-block;
+					transition: background-color 0.3s ease;
+				}
+
+				.error-btn:hover {
+					background-color: #555;
+					color: white;
+				}
+
+				.error-btn i {
+					margin-right: 8px;
+				}
+			</style>
+		</th:block>
+	</head>
+	<body>
+		<section layout:fragment="content">
+			<div class="error-container">
+				<div class="error-card">
+					<div class="error-icon">
+						<i class="fas fa-search"></i>
+					</div>
+					<div class="error-code">404</div>
+					<div class="error-title">Không Tìm Thấy Trang</div>
+					<div class="error-message" th:text="${errorMessage}">Rất tiếc, trang bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.</div>
+					<a th:href="@{/administration/dashboard}" class="error-btn"> <i class="fas fa-arrow-left"></i> Quay lại Dashboard </a>
 				</div>
 			</div>
-		</div>
-	</section>
-	<div layout:fragment="content">
-		<div class="row justify-content-center">
-			<div class="col-md-8">
-				<div class="card card-warning mt-5 shadow">
-					<div class="card-header">
-						<h3 class="card-title">
-							<i class="fas fa-exclamation-triangle"></i> Oops! Không tìm thấy
-							trang.
-						</h3>
-					</div>
-					<div class="card-body text-center">
-						<h2 class="headline display-1 text-warning mb-4">404</h2>
-						<p th:text="${errorMessage}" class="lead mb-3">Rất tiếc, trang
-							bạn đang tìm kiếm không tồn tại.</p>
-						<a th:href="@{/administration/dashboard}" class="btn btn-warning"><i
-							class="fas fa-arrow-left"></i> Quay lại Dashboard</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</body>
+		</section>
+	</body>
 </html>

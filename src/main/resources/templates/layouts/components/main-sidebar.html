@@ -1,72 +1,84 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<body>
-	<aside th:fragment="main-sidebar"
-		class="main-sidebar sidebar-dark-primary elevation-4">
-		<a href="/administration/dashboard" class="brand-link"
-			style="display: flex; align-items: center; justify-content: center; padding: 8px 0">
-			<img src="/favicon.ico" alt="SmartRoom Logo"
-			style="width: 32px; height: 32px; margin-right: 12px" /> <span
-			class="brand-text font-weight-light">Smart Room Admin</span>
-		</a>
+	<body>
+		<aside th:fragment="main-sidebar" class="main-sidebar sidebar-light-gray elevation-4" style="background-color: #f8f9fa">
+			<!-- Brand Link -->
+			<a th:href="@{/administration/dashboard}" class="brand-link" style="background-color: #fff; border-bottom: 1px solid #dee2e6">
+				<img src="/favicon.ico" alt="SmartRoom Logo" style="width: 32px; height: 32px; margin-right: 10px; opacity: 0.8" />
+				<span class="brand-text" style="color: #333; font-weight: 500; font-size: 16px">Smart Room</span>
+			</a>
 
-		<div class="sidebar">
-			<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-				<div class="info">
-					<a href="#" class="d-block">User Name</a>
+			<!-- Sidebar Menu -->
+			<div class="sidebar">
+				<!-- User Panel -->
+				<div class="user-panel mt-3 pb-3 mb-3 d-flex" style="border-bottom: 1px solid #dee2e6">
+					<div class="info">
+						<a href="#" class="d-block" style="color: #666; font-size: 14px">Administrator</a>
+					</div>
 				</div>
+
+				<!-- Menu -->
+				<nav class="mt-2">
+					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+						<!-- Dashboard -->
+						<li class="nav-item">
+							<a th:href="@{/administration/dashboard}" class="nav-link" style="color: #666">
+								<i class="nav-icon fas fa-tachometer-alt" style="color: #999"></i>
+								<p style="margin: 0; color: #333">Dashboard</p>
+							</a>
+						</li>
+
+						<!-- Management Section -->
+						<li class="nav-item has-treeview">
+							<a href="#" class="nav-link" style="color: #666">
+								<i class="nav-icon fas fa-layer-group" style="color: #999"></i>
+								<p style="margin: 0; color: #333">
+									Management
+									<i class="right fas fa-angle-left" style="color: #ccc"></i>
+								</p>
+							</a>
+							<ul class="nav nav-treeview" style="display: none">
+								<li class="nav-item">
+									<a th:href="@{/administration/components/rooms}" class="nav-link" style="color: #666; padding-left: 40px">
+										<i class="far fa-square nav-icon" style="color: #ccc; font-size: 10px"></i>
+										<p style="margin: 0">Rooms</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a th:href="@{/administration/components/hubs}" class="nav-link" style="color: #666; padding-left: 40px">
+										<i class="far fa-square nav-icon" style="color: #ccc; font-size: 10px"></i>
+										<p style="margin: 0">Hubs</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a th:href="@{/administration/components/devices}" class="nav-link" style="color: #666; padding-left: 40px">
+										<i class="far fa-square nav-icon" style="color: #ccc; font-size: 10px"></i>
+										<p style="margin: 0">Devices</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a th:href="@{/administration/components/sensors}" class="nav-link" style="color: #666; padding-left: 40px">
+										<i class="far fa-square nav-icon" style="color: #ccc; font-size: 10px"></i>
+										<p style="margin: 0">Sensors</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a th:href="@{/administration/components/datatypes}" class="nav-link" style="color: #666; padding-left: 40px">
+										<i class="far fa-square nav-icon" style="color: #ccc; font-size: 10px"></i>
+										<p style="margin: 0">DataTypes</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a th:href="@{/administration/components/connectiontypes}" class="nav-link" style="color: #666; padding-left: 40px">
+										<i class="far fa-square nav-icon" style="color: #ccc; font-size: 10px"></i>
+										<p style="margin: 0">ConnectionTypes</p>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
 			</div>
-
-			<nav class="mt-2">
-				<ul class="nav nav-pills nav-sidebar flex-column"
-					data-widget="treeview" role="menu" data-accordion="false">
-					<li class="nav-item"><a th:href="@{/administration/dashboard}"
-						class="nav-link"> <i class="nav-icon fas fa-tachometer-alt"></i>
-							<p>Dashboard</p>
-					</a></li>
-
-					<li class="nav-item"><a href="#" class="nav-link"> <i
-							class="nav-icon fas fa-layer-group"></i>
-							<p>
-								Components <i class="right fas fa-angle-left"></i>
-							</p>
-					</a>
-
-						<ul class="nav nav-treeview">
-							<li class="nav-item"><a
-								th:href="@{/administration/components/rooms}" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Rooms</p>
-							</a></li>
-							<li class="nav-item"><a
-								th:href="@{/administration/components/hubs}" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Hubs</p>
-							</a></li>
-							<li class="nav-item"><a
-								th:href="@{/administration/components/devices}" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Devices</p>
-							</a></li>
-							<li class="nav-item"><a
-								th:href="@{/administration/components/sensors}" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>Sensors</p>
-							</a></li>
-							<li class="nav-item"><a
-								th:href="@{/administration/components/datatypes}"
-								class="nav-link"> <i class="far fa-circle nav-icon"></i>
-									<p>DataTypes</p>
-							</a></li>
-							<li class="nav-item"><a
-								th:href="@{/administration/components/connectiontypes}"
-								class="nav-link"> <i class="far fa-circle nav-icon"></i>
-									<p>ConnectionTypes</p>
-							</a></li>
-						</ul></li>
-				</ul>
-			</nav>
-		</div>
-	</aside>
-</body>
+		</aside>
+	</body>
 </html>

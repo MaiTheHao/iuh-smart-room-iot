@@ -1,45 +1,96 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/main}">
-<head>
-<title>Lỗi Máy Chủ</title>
-</head>
-<body>
-	<section class="content-header" layout:fragment="content-header">
-		<div class="container-fluid">
-			<div class="row mb-2">
-				<div class="col-sm-6">
-					<h1 class="text-danger">
-						<i class="fas fa-server"></i> 500 - Lỗi máy chủ nội bộ
-					</h1>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/main}">
+	<head>
+		<title>Lỗi Máy Chủ</title>
+		<th:block layout:fragment="extra-css">
+			<style>
+				.error-container {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					min-height: 500px;
+				}
+
+				.error-card {
+					background-color: #fff;
+					border: 1px solid #dee2e6;
+					border-radius: 4px;
+					padding: 40px 30px;
+					text-align: center;
+					max-width: 500px;
+				}
+
+				.error-code {
+					font-size: 80px;
+					font-weight: bold;
+					color: #999;
+					line-height: 1;
+					margin-bottom: 20px;
+				}
+
+				.error-title {
+					font-size: 22px;
+					color: #333;
+					margin-bottom: 15px;
+					font-weight: 500;
+				}
+
+				.error-message {
+					font-size: 14px;
+					color: #666;
+					margin-bottom: 10px;
+					line-height: 1.6;
+				}
+
+				.error-submessage {
+					font-size: 13px;
+					color: #999;
+					margin-bottom: 30px;
+					font-style: italic;
+				}
+
+				.error-icon {
+					font-size: 48px;
+					color: #ccc;
+					margin-bottom: 20px;
+				}
+
+				.error-btn {
+					background-color: #333;
+					color: white;
+					border: none;
+					padding: 10px 20px;
+					border-radius: 4px;
+					text-decoration: none;
+					display: inline-block;
+					transition: background-color 0.3s ease;
+				}
+
+				.error-btn:hover {
+					background-color: #555;
+					color: white;
+				}
+
+				.error-btn i {
+					margin-right: 8px;
+				}
+			</style>
+		</th:block>
+	</head>
+	<body>
+		<section layout:fragment="content">
+			<div class="error-container">
+				<div class="error-card">
+					<div class="error-icon">
+						<i class="fas fa-server"></i>
+					</div>
+					<div class="error-code">500</div>
+					<div class="error-title">Lỗi Máy Chủ Nội Bộ</div>
+					<div class="error-message" th:text="${errorMessage}">Đã có lỗi xảy ra trong quá trình xử lý yêu cầu của bạn.</div>
+					<div class="error-submessage">Chúng tôi sẽ khắc phục sự cố ngay lập tức.</div>
+					<a th:href="@{/administration/dashboard}" class="error-btn"> <i class="fas fa-arrow-left"></i> Quay lại Dashboard </a>
 				</div>
 			</div>
-		</div>
-	</section>
-	<div layout:fragment="content">
-		<div class="row justify-content-center">
-			<div class="col-md-8">
-				<div class="card card-danger mt-5 shadow">
-					<div class="card-header">
-						<h3 class="card-title">
-							<i class="fas fa-exclamation-triangle"></i> Oops! Đã có lỗi xảy
-							ra.
-						</h3>
-					</div>
-					<div class="card-body text-center">
-						<h2 class="headline display-1 text-danger mb-4">500</h2>
-						<p th:text="${errorMessage}" class="lead mb-3">Đã có lỗi xảy
-							ra trong quá trình xử lý yêu cầu của bạn.</p>
-						<p class="mb-4">
-							Chúng tôi sẽ khắc phục sự cố ngay lập tức.<br /> <a
-								th:href="@{/administration/dashboard}" class="btn btn-danger"><i
-								class="fas fa-arrow-left"></i> Quay lại Dashboard</a>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</body>
+		</section>
+	</body>
 </html>

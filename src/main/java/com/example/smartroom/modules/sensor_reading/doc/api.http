@@ -10,7 +10,7 @@
 @readingId = 1
 
 # Biến cho truy vấn thời gian
-@startTime = 2024-01-15T00:00:00Z
+@startTime = 2020-01-15T00:00:00Z
 @endTime = 2024-01-15T23:59:59Z
 
 # Biến cho xác thực (Admin)
@@ -128,9 +128,6 @@ GET {{sensorReadingsEp}}/sensor/{{sensorId}}?page=0&size=50
 # @name getReadingsBySensorTime
 GET {{sensorReadingsEp}}/sensor/{{sensorId}}?startTime={{startTime}}&endTime={{endTime}}&page=0&size=100
 
-# ✅ FIXED: Đã merge endpoint /time-range vào endpoint chính
-# Bây giờ có thể dùng optional query params: ?startTime=...&endTime=...
-# Nếu không truyền startTime/endTime sẽ lấy tất cả readings
 ###
 
 ### Lấy N readings mới nhất theo sensor ID
@@ -143,9 +140,6 @@ GET {{sensorReadingsEp}}/sensor/{{sensorId}}/latest?limit=10
 # @name getStatistics
 GET {{sensorReadingsEp}}/sensor/{{sensorId}}/statistics?startTime={{startTime}}&endTime={{endTime}}
 
-# ✅ FIXED: Đã chuyển query từ JPQL sang Native SQL
-# Repository bây giờ trả về Object[] trực tiếp thay vì Optional<Object[]>
-# Service xử lý null check đúng cách, không còn ClassCastException
 ###
 
 ### Lấy readings theo nhiều sensor IDs và thời gian
@@ -178,19 +172,3 @@ Authorization: {{authToken}}
 # @name deleteReadingsByTime
 DELETE {{sensorReadingsEp}}/sensor/{{sensorId}}?startTime=2024-01-01T00:00:00Z&endTime=2024-01-14T23:59:59Z
 Authorization: {{authToken}}
-
-# ✅ FIXED: Đã merge endpoint /time-range vào endpoint chính
-# Có thể dùng optional query params: ?startTime=...&endTime=...
-# CẢNH BÁO: Nếu không truyền time params sẽ XÓA TẤT CẢ readings của sensor!
-
-###
-
-### Xóa TẤT CẢ readings của một sensor (NGUY HIỂM!)
-# @name deleteAllReadingsBySensor
-# DELETE {{sensorReadingsEp}}/sensor/{{sensorId}}
-# Authorization: {{authToken}}
-
-# CẢNH BÁO: Endpoint này sẽ xóa TẤT CẢ dữ liệu của sensor
-# Chỉ sử dụng khi thực sự cần thiết!
-
-###

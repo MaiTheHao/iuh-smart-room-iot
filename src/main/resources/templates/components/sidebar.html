@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<!-- Sidebar Fragment -->
+		<aside class="main-sidebar sidebar-dark-primary elevation-4" th:fragment="sidebar">
+			<!-- Brand Logo -->
+			<a th:href="@{/dashboard}" class="brand-link">
+				<img th:src="@{/images/logo.png}" alt="SmartRoom Logo" class="brand-image img-circle elevation-3" />
+				<span class="brand-text font-weight-light">Smart Room</span>
+			</a>
+
+			<!-- Sidebar Menu -->
+			<nav class="mt-2">
+				<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+					<!-- Dashboard Menu Item -->
+					<li class="nav-item">
+						<a th:href="@{/dashboard}" class="nav-link">
+							<i class="nav-icon fas fa-tachometer-alt"></i>
+							<p>Dashboard</p>
+						</a>
+					</li>
+
+					<!-- Quản lý Tầng -->
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<i class="nav-icon fas fa-layer-group"></i>
+							<p>
+								Quản lý Tầng
+								<i class="right fas fa-angle-left"></i>
+							</p>
+						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<a th:href="@{/floors}" class="nav-link">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Danh sách Tầng</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a th:href="@{/floors/create}" class="nav-link">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Tạo Tầng Mới</p>
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					<!-- Quản lý Phòng -->
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<i class="nav-icon fas fa-door-open"></i>
+							<p>
+								Quản lý Phòng
+								<i class="right fas fa-angle-left"></i>
+							</p>
+						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<a th:href="@{/rooms}" class="nav-link">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Danh sách Phòng</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a th:href="@{/rooms/create}" class="nav-link">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Tạo Phòng Mới</p>
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					<!-- Quản lý Thiết bị -->
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<i class="nav-icon fas fa-microchip"></i>
+							<p>
+								Quản lý Thiết bị
+								<i class="right fas fa-angle-left"></i>
+							</p>
+						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<a th:href="@{/devices}" class="nav-link">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Danh sách Thiết bị</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a th:href="@{/devices/create}" class="nav-link">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Thêm Thiết bị Mới</p>
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					<!-- Quản lý Cảm biến -->
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<i class="nav-icon fas fa-sliders-h"></i>
+							<p>
+								Quản lý Cảm biến
+								<i class="right fas fa-angle-left"></i>
+							</p>
+						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<a th:href="@{/sensors}" class="nav-link">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Danh sách Cảm biến</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a th:href="@{/sensors/create}" class="nav-link">
+									<i class="far fa-circle nav-icon"></i>
+									<p>Thêm Cảm biến Mới</p>
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					<!-- Divider -->
+					<li class="nav-header">SYSTEM</li>
+
+					<!-- Settings -->
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<i class="nav-icon fas fa-cog"></i>
+							<p>Settings</p>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</aside>
+	</body>
+</html>

@@ -1,0 +1,20 @@
+<!-- filepath: d:\WorkSpace\Project\Web\java\smartroom\src\main\resources\templates\components\status-badge.html -->
+
+<th:block xmlns:th="http://www.thymeleaf.org">
+	<!-- Status Badge Component for AdminLTE DataTables -->
+	<!-- Usage: th:replace="~{components/status-badge :: status-badge(status=${device.status}, text=${device.customText})}" -->
+
+	<th:block th:fragment="status-badge(status, text)">
+		<span
+			class="badge"
+			th:classappend="${
+                status == 'Online' ? 'badge-success' :
+                status == 'Idle' ? 'badge-warning' :
+                status == 'Offline' ? 'badge-danger' :
+                'badge-secondary'
+            }"
+		>
+			<span th:text="${text != null ? text : status}"></span>
+		</span>
+	</th:block>
+</th:block>

@@ -1,0 +1,237 @@
+/* Custom Styles for SmartRoom */
+
+:root {
+	--primary-color: #007bff;
+	--secondary-color: #6c757d;
+	--success-color: #28a745;
+	--danger-color: #dc3545;
+	--warning-color: #ffc107;
+	--info-color: #17a2b8;
+}
+
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+	background-color: #f4f4f4;
+}
+
+.small-box {
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.small-box:hover {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transform: translateY(-2px);
+}
+
+.small-box-footer {
+	color: rgba(255, 255, 255, 0.8);
+	text-decoration: none;
+	padding: 10px 15px;
+	display: block;
+	background: rgba(0, 0, 0, 0.1);
+	text-align: center;
+	border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.small-box-footer:hover {
+	color: #fff;
+	background: rgba(0, 0, 0, 0.15);
+}
+
+/* Table Styles */
+.table {
+	background-color: white;
+}
+
+.table thead th {
+	border-bottom: 2px solid #dee2e6;
+	font-weight: 600;
+	color: #333;
+	background-color: #f9f9f9;
+}
+
+/* Button Styles */
+.btn-sm {
+	margin: 0 2px;
+}
+
+.btn-group-sm {
+	gap: 4px;
+}
+
+/* Card Styles */
+.card {
+	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+	border: 0;
+	margin-bottom: 20px;
+}
+
+.card-header {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+	border-bottom: 0;
+	padding: 1.25rem;
+}
+
+.card-header.with-border {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.card-title {
+	margin: 0;
+	font-size: 1.1rem;
+	font-weight: 600;
+}
+
+/* Form Styles */
+.form-control {
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+}
+
+.form-control:focus {
+	border-color: #667eea;
+	box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+label {
+	font-weight: 600;
+	color: #333;
+	margin-bottom: 0.5rem;
+}
+
+/* Alert Styles */
+.alert {
+	border: 0;
+	border-radius: 4px;
+}
+
+.alert-info {
+	background-color: #cfe2ff;
+	border-color: #b6d4fe;
+	color: #084298;
+}
+
+.alert-success {
+	background-color: #d1e7dd;
+	border-color: #badbcc;
+	color: #0f5132;
+}
+
+.alert-warning {
+	background-color: #fff3cd;
+	border-color: #ffecb5;
+	color: #664d03;
+}
+
+.alert-danger {
+	background-color: #f8d7da;
+	border-color: #f5c2c7;
+	color: #842029;
+}
+
+/* Navbar Styles */
+.main-header {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	border: 0;
+}
+
+.main-header.navbar-white {
+	background: white;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav .nav-link {
+	color: #666 !important;
+}
+
+.navbar-nav .nav-link:hover {
+	color: #333 !important;
+}
+
+/* Sidebar Styles */
+.sidebar-dark-primary {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.brand-link {
+	background: rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-sidebar .nav-link.active {
+	background-color: rgba(255, 255, 255, 0.2);
+	border-left: 3px solid white;
+	padding-left: calc(0.5rem - 3px);
+}
+
+.nav-sidebar .nav-link {
+	color: rgba(255, 255, 255, 0.8);
+	border-left: 3px solid transparent;
+}
+
+.nav-sidebar .nav-link:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+	color: white;
+}
+
+/* Badge Styles */
+.badge {
+	border-radius: 3px;
+	padding: 4px 8px;
+	font-size: 0.75rem;
+	font-weight: 600;
+}
+
+/* Pagination Styles */
+.pagination {
+	gap: 4px;
+}
+
+.pagination .page-link {
+	border: 1px solid #dee2e6;
+	color: #667eea;
+	border-radius: 4px;
+}
+
+.pagination .page-link:hover {
+	color: #764ba2;
+	background-color: #f9f9f9;
+}
+
+.pagination .page-item.active .page-link {
+	background-color: #667eea;
+	border-color: #667eea;
+}
+
+/* Loading Animation */
+.spinner {
+	border: 4px solid #f3f3f3;
+	border-top: 4px solid #667eea;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.table {
+		font-size: 0.875rem;
+	}
+
+	.btn-sm {
+		padding: 0.25rem 0.5rem;
+		font-size: 0.75rem;
+	}
+}
